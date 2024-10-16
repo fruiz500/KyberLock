@@ -1,0 +1,623 @@
+html {
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    font-family: Sans-Serif;
+    font-size: 100%;
+    margin-left: 1%;
+    margin-right: 1%;
+    overflow: auto;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+input:focus {
+    outline: none !important;
+    border:1px solid #00CA68;
+    box-shadow: 0 0 10px #77b5a4;
+}
+div:focus {
+    outline: none !important;
+    border:1px solid #00CA68;
+    box-shadow: 0 0 10px #719ECE;
+}
+button:focus {
+    outline: none !important;
+    box-shadow: 0 0 10px #75b3a2;
+}
+select:focus {
+    outline: none !important;
+    border:1px solid #00CA68;
+    box-shadow: 0 0 10px #719ECE;
+}
+.black_overlay {
+    display: block;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 1001;
+    -moz-opacity: 0.5;
+    opacity: .50;
+    filter: alpha(opacity=50);
+    background-color: black;
+}
+.white_content {
+    display: none;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    padding: 0px;
+    border: 0px solid gray;
+    z-index: 1002;
+    overflow: auto;
+    background-color: white;
+    text-align: center;
+    margin: auto;
+}
+.block_page {
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+    border: 0px solid gray;
+    z-index: 1002;
+    overflow: auto;
+    background-color: white;
+}
+.centered {
+  text-align: center;
+  margin: auto;
+}
+.left {
+  text-align: left;
+  margin: auto;
+}
+.borderless {
+  border: 0;
+	margin: 0;
+}
+.cssbutton {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    font-family: Arial;
+    font-size: 18px;
+    padding: 12px;
+    text-decoration: none;
+    border: 0px;
+    color: #666666;
+    background: #e6e6e6;
+}
+.cssbutton:hover {
+    text-decoration: none;
+    cursor: pointer;
+    background: #c4c4c4;
+}
+.narrow {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+.cssbox {
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    font-size: medium;
+    padding: 15px;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    color: #000000;
+    background: #ffffff;
+    border: 1px solid #dedede;
+    overflow: auto;
+    white-space: pre-line;
+}
+.message {
+    white-space: pre-line;
+    height: 40px;
+}
+.field-icon {
+  margin-left: -30px;
+  height: 18px;
+  z-index: 1003;
+  position: relative;
+}
+.intLink {
+    cursor: pointer;
+}
+.blink {
+    -webkit-animation: blink .75s linear infinite;
+    -moz-animation: blink .75s linear infinite;
+    -ms-animation: blink .75s linear infinite;
+    -o-animation: blink .75s linear infinite;
+    animation: blink .75s linear infinite;
+}
+ @-webkit-keyframes blink {
+ 0% {
+opacity: 1;
+}
+ 50% {
+opacity: 1;
+}
+ 50.01% {
+opacity: 0;
+}
+ 100% {
+opacity: 0;
+}
+}
+ @-moz-keyframes blink {
+ 0% {
+opacity: 1;
+}
+ 50% {
+opacity: 1;
+}
+ 50.01% {
+opacity: 0;
+}
+ 100% {
+opacity: 0;
+}
+}
+ @-ms-keyframes blink {
+ 0% {
+opacity: 1;
+}
+ 50% {
+opacity: 1;
+}
+ 50.01% {
+opacity: 0;
+}
+ 100% {
+opacity: 0;
+}
+}
+ @-o-keyframes blink {
+ 0% {
+opacity: 1;
+}
+ 50% {
+opacity: 1;
+}
+ 50.01% {
+opacity: 0;
+}
+ 100% {
+opacity: 0;
+}
+}
+ @keyframes blink {
+ 0% {
+opacity: 1;
+}
+ 50% {
+opacity: 1;
+}
+ 50.01% {
+opacity: 0;
+}
+ 100% {
+opacity: 0;
+}
+}
+input[type=checkbox] {
+    /* Larger checkboxes */
+    -ms-transform: scale(1.7); /* IE */
+    -moz-transform: scale(1.7); /* FF */
+    -webkit-transform: scale(1.7); /* Safari and Chrome */
+    -o-transform: scale(1.7); /* Opera */
+    transform: scale(1.7);
+    padding: 0px;
+    cursor: pointer;
+    border: 1px solid #dedede;
+}
+input[type=radio] {
+    /* Larger radio buttons */
+    -ms-transform: scale(1.7); /* IE */
+    -moz-transform: scale(1.7); /* FF */
+    -webkit-transform: scale(1.7); /* Safari and Chrome */
+    -o-transform: scale(1.7); /* Opera */
+    transform: scale(1.7);
+    padding: 0px;
+    cursor: pointer;
+    border: 1px solid #dedede;
+}
+ul#tabs {
+    margin: 0;
+    text-align: center;
+    padding: 11px;
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+    background-color: #c2cde9;
+}
+ul#tabs li {
+    display: inline;
+    width: auto;
+}
+ul#tabs li a {
+    font-size: 18px;
+    border: none;
+    text-decoration: none;
+    padding: 10px;
+    margin-left: -4px;
+    padding-bottom: 11px;
+    color: #42454a;
+    background-color: #c2cde9;
+}
+ul#tabs li a:hover {
+    background-color: #abb2d8;
+}
+ul#tabs li a.selected {
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    color: #000;
+    background-color: #ffffff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+div.tabContent {
+    border: none;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffffff;
+}
+div.tabContent.hide {
+    display: none;
+}
+select {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    font-size: medium;
+    width: 30%;
+    margin: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border: 1px solid #dedede;
+    color: #666666;
+    background: #ffffff;
+}
+img.intLink {
+    border: 0;
+}
+#toolBar1 {
+    display: none;
+    padding-top: 1px;
+    padding-left: 2px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background: #e6e6e6;
+}
+#toolBar1 select {
+    font-size: 10px;
+    width: 80px;
+    padding: 4px;
+    border-radius: 8px;
+}
+#mainBox {
+    width: 100%;
+    padding: 12px;
+}
+#editMode label {
+    cursor: pointer;
+}
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  color: #999999;
+}
+
+<!--previously inline formatting moved to style.css-->
+#mainMsg {
+    min-height: 20px;
+}
+#lockList {
+    padding: 4px;
+    width: 30%;
+}
+#resetListBtn {
+    font-size: 14px;
+    padding: 4px;
+}
+#main2lockBtn {
+    font-size: 14px;
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 12px;
+}
+#basicBtnsTop {
+    display: block;
+}
+#decryptBtnBasic {
+    font-size: 22px;
+    padding: 14px;
+}
+#showLockBtnBasic {
+    font-size: 22px;
+    padding: 14px;
+}
+#emailBtnsTop {
+    display: none;
+}
+#decryptBtnEmail {
+    padding-right: 7px;
+    padding-left: 7px;
+}
+#stegoBtnEmail {
+    padding-right: 6px;
+    padding-left: 6px;
+}
+#imageFileEmailBtn {
+    padding-right: 6px;
+    padding-left: 6px;
+    padding-bottom: 13px;
+}
+#imageFileEmail {
+    display: none;
+}
+#mainBtnsTop {
+    display: none;
+}
+#decryptBtn {
+    padding-right: 7px;
+    padding-left: 7px;
+}
+#verifyBtn {
+    padding-right: 7px;
+    padding-left: 7px;
+}
+#showLockBtn {
+    padding-right: 7px;
+    padding-left: 7px;
+}
+#main2extraBtn {
+    color: orange;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+#extraButtonsTop {
+    display: none;
+}
+#stegoBtn {
+    padding-right: 9px;
+    padding-left: 9px;
+}
+#imageFileBtn {
+    padding-bottom: 13px;
+}
+#imageFile {
+    display: none;
+}
+#secretShareBtn {
+    padding-right: 9px;
+    padding-left: 9px;
+}
+#extra2mainBtn {
+    color: orange;
+    padding-right: 9px;
+    padding-left: 9px;
+}
+#imgFile {
+    display: none;
+}
+#mainFile {
+    display: none;
+}
+
+#optionsTab {
+    max-width: 500px;
+}
+#specialEncryptModes {
+    display: none;
+}
+#syncCheck {
+    display: none;
+}
+#hideModes {
+    display: none;
+}
+#advancedBtns {
+    display: none;
+}
+
+#advancedHelp {
+    display: none;
+}
+#canary {
+    float: left;
+}
+
+#lockScr {
+    display: none;
+}
+#lock2mainBtn {
+    float: left;
+}
+#lockMsg {
+    height: 25px;
+}
+#lockNameBox {
+    width: 95%;
+}
+#lockBox {
+    width: 95%;
+}
+#lockBtnsBottom {
+    display: none;
+}
+#lockFile{
+    display: none;
+}
+
+#keyScr {
+    display: block;
+}
+#pwdMsg {
+    height: 40px;
+}
+#javascriptOff {
+    color: red;
+    font-weight: bold;
+}
+#nameList {
+    padding: 4px;
+    width: 30%;
+}
+#newUserBtn {
+    font-size: 14px;
+    padding: 4px;
+}
+#pwdBox {
+    width: 95%;
+}
+
+#introscr {
+    display: none;
+}
+#introWelcome {
+    color: green;
+}
+#intro1 {
+    width: 98%;
+    max-width: 500px;
+}
+#skipIntroBtn {
+    float: right;
+}
+#introscr2 {
+    display: none;
+}
+#intro2 {
+    width: 98%;
+    max-width: 500px;
+}
+#nameIntro {
+    width: 90%;
+}
+#pwdIntroMsg {
+    color: green;
+}
+#introscr3 {
+    display: none;
+}
+#intro3 {
+    width: 98%;
+    max-width: 500px;
+}
+#pwdIntroBox {
+    width: 90%;
+}
+#introscr4 {
+    display: none;
+}
+#intro4 {
+    width: 98%;
+    max-width: 500px;
+}
+#emailIntro {
+    width: 90%;
+}
+#introscr5 {
+    display: none;
+}
+#intro5 {
+    width: 98%;
+    max-width: 500px;
+}
+#showlockIntroBtn {
+    color: blue;
+}
+#intromsg2 {
+    color: red;
+}
+
+#nameScr {
+    display: none;
+}
+#namechangemsg {
+    height: 30px;
+}
+#userNameBox {
+    width: 95%;
+}
+#newKeyMsg {
+    height: 30px;
+}
+#newKeyBox {
+    width: 95%;
+}
+#newKey2Box {
+    width: 95%;
+}
+#emailScr {
+    display: none;
+}
+#emailBox {
+    width: 95%;
+}
+
+#decoyText {
+    width: 95%;
+}
+#decoyInBox {
+    width: 95%;
+}
+#decoyOutBox {
+    width: 95%;
+}
+
+#partsNumber {
+    width: 30%;
+}
+#partsQuorum {
+    width: 30%;
+}
+
+#chatDate {
+    width: 95%;
+}
+
+#imageScr {
+    display: none;
+}
+#image2mainBtn {
+    float: left;
+}
+#imageBox {
+    width: 25%;
+    padding: 5px;
+}
+#imageMsg {
+    height: 40px;
+}
+
+#lockdirContent {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#qrcodeImg {
+    top: 100px;
+}

@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" manifest="kyberlock.appcache">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>KyberLock Help</title>
+<meta name="Keywords" content="KyberLock, URSA, browser, encryption, decryption, symmetric, public key, signature, AES, ECDH, Diffie, Hellman, elliptic curve, advanced, javascript, PGP, PRISM, Quantum, Crystals, Kyber, ML-KEM">
+<meta name="Description" content="KyberLock Help">
+<meta name="author" content="F. Ruiz">
+<meta name="robots" content="index">
+<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="KyberLock-touch-icon.png">
+<link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+
+<!--Default stylesheet containing the Light color scheme-->
+<style>
+html {
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    font-family: Sans-Serif;
+    font-size: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    overflow: auto;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+.message {
+    white-space: pre-line;
+    height: 40px;
+}
+.helpHeading {
+    cursor: pointer;
+    padding: 1px;
+}
+.helpHeading:hover {
+    background-color: #eeeeee;
+}
+.helpHeading2 {
+    cursor: pointer;
+    padding: 1px;
+}
+.helpText {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+</style>
+<head>
+<!--License notice and SSL force-->
+<script>
+        /*
+        @source: https://kyberlock.com/app/index.html
+
+        @licstart  The following is the entire license notice for the
+        JavaScript code in this page.
+
+        Copyright (C) 2024  Francisco Ruiz
+
+        The JavaScript code in this page is free software: you can
+        redistribute it and/or modify it under the terms of the GNU
+        General Public License (GNU GPL) as published by the Free Software
+        Foundation, either version 3 of the License, or (at your option)
+        any later version.  The code is distributed WITHOUT ANY WARRANTY;
+        without even the implied warranty of MERCHANTABILITY or FITNESS
+        FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+        As additional permission under GNU GPL version 3 section 7, you
+        may distribute non-source (e.g., minimized or compacted) forms of
+        that code without the copy of the GNU GPL normally required by
+        section 4, provided you include this license notice and a URL
+        through which recipients can access the Corresponding Source.
+
+
+        @licend  The above is the entire license notice
+        for the JavaScript code in this page.
+        */
+
+        if (window.location.protocol == "http:") {				//force SSL/TLS
+
+var restOfUrl = window.location.href.slice(5);
+window.location = "https:" + restOfUrl;
+}
+</script>
+</head>
+
+<body>
+<!--Help tab-->
+<h1>KyberLock Help</h1>
+    <br>
+    <span id='helpmsg' class="message">For instructions on how to do things, click on each title.</span>
+    <br>
+      <!--the help items begin here-->
+      <hr>
+      <div class="helpHeading">
+        <h3>What is KyberLock?</h3>
+      </div>
+      <div class="helpText">
+        <p>Before you do anything else, you may want to watch this three-minute video, which explains the essential concepts in a lighthearted way for a very similar app named PassLok (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=UxgrES_CGcg" target="_blank">https://www.youtube.com/watch?v=UxgrES_CGcg</a></p>
+        <ul>
+          <li>KyberLock locks text and files, and sets up secure real time chat sessions using strong <strong>end-to-end encryption</strong>.</li>
+          <li>KyberLock is based on Crystals-Kyber, the new standard for quantum-proof cryptography. Data encrypted today with KyberLock <strong>will remain secure</strong> when quantum computers become powerful enough to break all other kinds of encryption.</li>
+          <li>KyberLock uses Keys and Locks. You encrypt something with <strong>someone else's Lock</strong>, so only that person can decrypt it with his/her secret Key.</li>
+          <li>Your secret Key is a short piece of text, which <strong>can be anything you want so you can remember it</strong>.</li>
+          <li>The matching Lock is then made from your Key. It is impossible to get the Key from the Lock.</li>
+          <li>You should never give your secret Key to anyone. Your Lock, however, is meant to be distributed freely.</li>
+        </ul>
+        <p>This approach has a number of advantages over other privacy apps that you may be familiar with:</p>
+        <ul>
+          <li>KyberLock does not involve a server, so nobody can possibly have your private data.</li>
+          <li>The same code runs on computers, phones, and tablets to make it perfectly portable.</li>
+          <li>You can use KyberLock alongside your favorite email, texting app, or any program by cut and paste.</li>
+          <li>KyberLock does not need to store anything secret. The only secret is your Key, which stays in your head.</li>
+          <li>You can use KyberLock with a public or borrowed device as easily and safely as with your private phone or computer.</li>
+          <li>Several users (or several identities) can coexist on the same device.</li>
+        </ul>
+        <p>KyberLock is <strong>still in experimental phase</strong> since there has not been enough time for security experts to uncover possible flaws. Bear this in mind before entrusting critical secrets to it.</p>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Invite others to KyberLock</h3>
+      </div>
+      <div class="helpText">
+        <p>Before you can communicate with others using KyberLock, they must have obtained the app, come up with a secret Key (which they won't tell you), generated a Lock from it, and sent it back to you.</p>
+        <p>You can tell others about KyberLock any way you want, but KyberLock can help you to start your network with a single keystroke, this way:</p>
+        <p>1. Optionally, type a message in the main box. Don't write anything sensitive, since <strong>invitation messages are not secure</strong>.</p>
+        <p>2. Click the <strong>Invite</strong> button.</p>
+        <p>3. If something was written, you will be asked to confirm, and then the main box will be filled with some instructions and some gibberish that you can send to those you want to invite. This gibberish contains your Lock and the (insecurely) encrypted message.</p>
+        <p>4. If now you click the Email button, a new page should open in your default email, containing that rext. Edit it as needed, then write the recipients' email addresses and send it.</p>
+        <p>This is explained in this video tutorial for PassLok, which is very similar (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=0wTJWyd9s64" target="_blank">https://www.youtube.com/watch?v=0wTJWyd9s64</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Those who get KyberLock from your email invitation will have your Lock automatically stored in their directories, so they can encrypt items for you right away.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Learn how to use KyberLock</h3>
+      </div>
+      <div class="helpText">
+        <p>If you check the <strong>Learn</strong> box in the <strong>Options</strong> tab, a text explaining what is about to happen will pop up every time a button is clicked.</p>
+        <p>And here are a few more resources you may want to check out, made for the very similar PassLok app:</p>
+        <p>The Learn PassLok website at <a href="https://passlok.com/learn" target="_blank">https://PassLok.com/learn</a> contains a working copy of PassLok and a number of lessons on the different things you can do with it.</p>
+        <p>The PassLok information website at <a href="https://passlok.weebly.com" target="_blank">http://PassLok.weebly.com</a> contains a number of videos and PDF documents.</p>
+        <p>The PassLok <a href="https://PassLok.weebly.com/uploads/2/4/1/8/24187628/PassLok_manual.pdf" target="_blank">manual in PDF format.</a></p>
+        <p>If you want to learn what's under the hood, read the <a href="http://www.weebly.com/uploads/2/4/1/8/24187628/passlok_technical_document.pdf" target="_blank">PassLok technical document.</a></p>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>How to make a strong Key</h3>
+      </div>
+      <div class="helpText">
+        <p>You should be able to <strong>remember your secret Key</strong> without having to write it down. KyberLock does not store the Key anywhere. In fact, it deletes it from memory after five minutes of not being used.</p>
+        <p>As you type your Key, KyberLock displays a color-coded message telling you how strong it is. If you stop typing for a second, a mnemonic &quot;Hashili&quot; word based on your Key is displayed right under the strength score, to reassure you that you have typed the Key correctly, even if you cannot see it. Clicking the eye icon reveals the entire Key.</p>
+        <p>Your Key will be stronger if it contains <strong>caPiTals</strong> in unusual places, <strong>numb3rs</strong>, and <strong>$ymbol$</strong>. If you use common words, <strong>miespell</strong> them to make a "dictionary attack" hader. Break the words up with <strong>num334bers</strong> and <strong>sy#$%mbols</strong>. Avoid anything that might be easy to guess. KyberLock knows frequently used words, but hackers' dictionaries are bigger. Do not use grammatically correct sentences, even if KyberLock gives a big score.</p>
+        <p>KyberLock <strong>compensates for weak Keys by adding spurious computations</strong> and may even appear to have crashed. If KyberLock is slow, this may be because your Key strength is less than Medium.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=JbNM_cf8My0" target="_blank">https://www.youtube.com/watch?v=JbNM_cf8My0</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>If you plan to use KyberLock only with shared Keys, you do not need a secret Key at all. Simply Cancel when you are asked for your Key when KyberLock starts, and write or paste the encryption Key into the lower box that appears when you you click the <strong>Edit</strong> button located next to the directory.</p>
+          <p>If instead of a short shared Key you paste in a piece or text at least five times as long as the message to be encrypted, KyberLock uses it in Pad mode, which theoretically is much more secure than the regular mode (more on this in a help item below).</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Get a hint to remember my Key</h3>
+      </div>
+      <div class="helpText">
+        <p>If you are reading this, likely you have gained Guest access to KyberLock by clicking <strong>Cancel</strong> at the Key entry screen. The good news is that you can still encrypt messages if you know the recipient's Lock or shared Key, verify signatures, and use the Locks stored in your local directory as well as all the auxiliary functions of KyberLock. You can even seal items and display the matching Lock if you enter a Key when KyberLock asks for it.</p>
+        <p>The bad news is that  you cannot change anything stored in the local directory, and your use of it is limited to Locks. You cannot do anything that would involve your secret Key, such as decrypting messages encrypted with your Lock, or continuing a Read-once conversation in course.</p>
+        <p>Well, we've got even worse news for you: we cannot help you to recover your secret Key, because KyberLock never stored it or sent it out. There are no saved hints, either. If you forgot your Key, <strong>it's gone, along with all encrypted items in the local directory</strong>.</p>
+        <p>But chances are you <em>almost</em> remember it, and are off only by a few characters. When you stop typing in the Key entry box, a mnemonic &quot;Hashili&quot; word derived from it appears right above it. Perhaps you can recognize the correct Hashili word when you see it, which will help you to reconstruct your Key. For your security, the Hashili word alone is not enough to reconstruct the Key.</p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Hopefully Guest mode will let you get by until you remember your secret Key. But if you want to get full access to KyberLock with a new Key, here are the steps:</p>
+          <p>1. Go to the <strong>Options</strong> tab.</p>
+          <p>2. Click the Backup/Remove <strong>Options only</strong> box. When a popup asks for confirmation to delete your settings, click <strong>OK</strong>.</p>
+          <p>3. Reload KyberLock.</p>
+          <p>4. The user selection screen will appear, and this time KyberLock will accept whatever new Key and email or suchlike you want to give it for the user in question. Now you're back in business and can use KyberLock with the new Key to seal, decrypt, store items in the local directory, etc.</p>
+          <p>At this point, the only directory entry that will work fully is &quot;myself&quot;. You can reset or delete the entries that don't work one by one, by typing each name in the directory Edit dialog and clicking <strong>Reset</strong> (leave essential data intact) or <strong>Delete</strong> (take out everything) when the name is recognized, or all at once by following the process described in a help item below, about &quot;moving the entire local directory.&quot;</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Use a different Key temporarily</h3>
+      </div>
+      <div class="helpText">
+        <p>For a given user name, there is only one &quot;secret Key&quot; that unlocks all the capabilities of KyberLock, but if you are willing to accept a limited access to its functions, you can use a different Key for the session, or whenever KyberLock asks you for the Key. This way:</p>
+        <p>1. Select the user and enter the new Key in the box (optional).</p>
+        <p>2. Click the <strong>Cancel</strong> button.</p>
+        <p>3. If asked for your email etc., enter it and click <strong>OK</strong>. (the <strong>Random</strong> button will write a new random value, different from the original random token, if any, so beware)</p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>You can do pretty much everything, except things that would have involved the secret Key. You cannot modify anything in the local directory. When you reload KyberLock and enter the correct Key, a warning will tell you that last session was run in Guest mode. If you don't select a user from the list, you won't have access to any stored Locks.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Make KyberLock even more secure</h3>
+      </div>
+      <div class="helpText">
+        <p>When you first opened KyberLock, you were asked to optionally enter your email or similar public, easy to recall personal information. But if instead of entering your email you click the <strong>Random</strong> button next to the input box, an 43-character random token is used. This makes your Lock  much harder to crack, but it becomes tied to the device where it was created  (except for the Chrome and Firefox extensions, which can sync it across devices).</p>
+        <p>To back up your random token to a safe place in case of accidental deletion or to be able to use a different device:</p>
+        <p>1. Click the Backup/Remove <strong>Options only</strong> button on the <strong>Options</strong> tab (visible in the Advanced interface). A backup item appears on the main box, from where you can save it to file, copy it, email it, etc.</p>
+        <p>2. Then a dialog asks you if you want to reset your settings. If you click <strong>OK</strong>, KyberLock will restart as if it had never started before, except that the local directory remains intact.</p>
+        <p>To restore the random token from a backup item, paste the packup into the main box and click <strong>Decrypt</strong>.</p>
+        <p>This and more is explained in this video tutorial made for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=4DjhIjU_nuM" target="_blank">https://www.youtube.com/watch?v=4DjhIjU_nuM</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>The reason for the email or other additional data is to combat the &quot;rainbow table&quot; attack, where hackers pre-compute Locks made from the words in a dictionary. This data is encrypted and stored along with other settings, so you won't need to enter it again. The Lock depends both on the Key and the email or random token; this adds extra security, but it also means that if the random token gets erased you will not be able to decrypt anything that was encrypted with your Lock. The backup item contains your settings, including the random token, encrypted by your secret Key. One reason to delete your settings while leaving the local directory intact is to be able to change the random token to a new value. You can also proceed without entering any email or token.</p>
+          <p>If you plan to use KyberLock for Email or KyberLock Universal, it is best if you write your real email in this box, for in this case your KyberLock Lock will be identical to the one used in those apps and you'll be able to use their main features interchangeably. This precaution is not necessary if you only use one of the versions.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Display the Lock matching your secret Key</h3>
+      </div>
+      <div class="helpText">
+        <p>Click the <strong>myLock</strong> button on the <strong>Main</strong> tab. The Lock matching that Key will appear
+          in the lower box, from where you can copy it or email it.</p>
+        <p>The message area above it will also display the Lock's fingerprint, a 50-character string that you should send to people who receive your Lock, by a different channel such as dictating it over the phone or video, so they can confirm that the Lock they received actually came from you. 
+        </p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=L00yybDzN6k" target="_blank">https://www.youtube.com/watch?v=L00yybDzN6k</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>If you need to make a Lock for a different Key, it is best if you start KyberLock in Guest mode by clicking <strong>Cancel</strong> when you are first asked for your Key, which will make KyberLock accept a different Key. Then click <strong>myLock</strong> and supply the new Key and new email, if requested. If you use a random token you will need to copy it before you do this.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Add a Lock or shared Key to the local directory</h3>
+      </div>
+      <div class="helpText">
+        <p>From the <strong>Main</strong> tab (this works only for Locks):</p>
+        <p>1. Paste the Lock into the Main box. Only the gibberish text between the header and the footer is needed, but there's no problem copying those as well. If the item is identified as a Lock, a prompt will ask you to give it a name. It will also display the Lock's 50-character fingerprint.</p>
+        <p>2. If you received the fingerprint by a separate trusted channel, check that it is the same as displayed. Otherwise make a note to check it as soon as possible.</p>
+        <p>3. Write a name in the prompt box and click <strong>OK</strong>. You will see the name added to the selection box at the top of the <strong>Main</strong> tab.</p>
+        <p>From the directory Edit dialog:</p>
+        <p>1. Cick the <strong>Edit</strong> button next to the directory box.</p>
+        <p>2. Paste the Lock or shared Key in the box, replacing whatever was there before. Usually KyberLock will recognize a Lock and display a message saying so, along with its fingerprint.</p>
+        <p>3. If you received the fingerprint by a separate trusted channel, check that it is the same as displayed. Otherwise make a note to check it as soon as possible.</p>
+        <p>4. Click the <strong>Save</strong> button. A popup will ask you to provide a name for the item.</p>
+        <p>5. Write the name and click <strong>OK</strong>. A message confirms that the item has been saved under the name given.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=vQrED7eIkLA" target="_blank">https://www.youtube.com/watch?v=vQrED7eIkLA</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Authenticating Locks is very important for security. Otherwise an interloper will be able to impersonate the authentic sender. If you did not have the authentic Lock's fingerprint when you entered it, you can display it later by typing the Lock's given name in the directory Edit box. If the fingerprint does not match what you've got, you can delete the Lock by clicking <strong>Delete</strong> at this point.</p>
+          <p>If the given name is already in the directory, the Lock or shared Key will be replaced rather than added. You can store a cover text or a List besides an individual's Lock or shared Key. In the case of a List, the given name will be displayed bracketed by double dashes. Items that are not Locks are stored encrypted.</p>
+          <p>(<em>Chrome/Firefox app only</em>) If <strong>Chrome sync</strong> is checked in Options, the item will also be added to the Chrome sync area, so it is available on a different computer after you log into Chrome or Firefox.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt a message with a Lock, to be decrypted with the matching Key (Anonymous mode)</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Make  sure <strong>Anonymous</strong> mode is selected at the bottom of the <strong>Main</strong> tab. This is the default.</p>
+        <p>2. If the recipients' Locks have been previously stored in the directory, simply select their names in the top box of the <strong>Main</strong> tab. </p>
+        <ul>
+          <li>If not, click the <strong>Edit</strong> button next to the directory listing and paste the Locks, with an empty line in-between, in the dialog that appears. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>3. Write or paste your message in the lower box of the <strong>Main</strong> tab. You can give it rich formatting or add images and files if you display the formatting toolbar by clicking the <strong>Rich</strong> button.</p>
+        <p>4. Click the <strong>Encrypt</strong> button. The
+          encrypted message will appear in the box, replacing the original message.</p>
+        <p>Copy it and paste it into your
+          communications program or click <strong>Email</strong> to open your default email. </p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=nBA5JNY4gmQ" target="_blank">https://www.youtube.com/watch?v=nBA5JNY4gmQ</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>This mode is called Anonymous not because it provides any protection against tracking over a network, but because the identity of the sender cannot be deduced from the encrypted message. This message can be decrypted only by someone having the Key matching one of the Locks selected. Alternatively, you can select a List, as described in an item below, in order to encrypt for all the recipients in the List. It is okay if the tags up to the "==" signs on the Lock are missing, or carriage returns have been added (such as for a video URL). If you have checked <strong>Include my Lock</strong> in the Options tab before encryption, your Lock will be prepended to the encrypted message.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Decrypt an Anonymous encrypted message</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Paste the encrypted message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>2. If the message doesn't decrypt automatically, click the <strong>Decrypt</strong> button. The decrypted message
+          will appear in the box, replacing the encrypted message.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=nBA5JNY4gmQ" target="_blank">https://www.youtube.com/watch?v=nBA5JNY4gmQ</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>It is okay if the message is broken up by carriage returns or is missing its header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt a message with a Lock, to be decrypted with the matching Key, and sign it with your secret Key (Signed mode)</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Make sure <strong>Signed</strong> mode is selected at the bottom of the <strong>Main</strong> tab.</p>
+        <p>2. If the recipients' Locks have been previously stored in the directory, simply select their names in the top box of the <strong>Main</strong> tab.</p>
+        <ul>
+          <li>If not, click the <strong>Edit</strong> button next to the directory box and paste the Locks, with an empty line in-between, in the dialog that appears. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>3. Write or paste your message in the lower box of the <strong>Main</strong> tab. You can give it rich formatting or add images and files if you display the formatting toolbar by clicking the <strong>Rich</strong> button.</p>
+        <p>4. Click the <strong>Encrypt</strong> button. The
+          encrypted message will appear in the box, replacing the original message.</p>
+        <p>Copy it and paste it into your
+          communications program or click <strong>Email</strong> to open your default email.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=R9UanENF3ro" target="_blank">https://www.youtube.com/watch?v=R9UanENF3ro</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p> This mode is called Signed because a digital signature is involved and the message can be decrypted only by
+            someone having the Key matching one of the Locks selected, and your Lock. This way, the recipient can be sure of who encrypted the message. Alternatively, you can also write the names, one per line, in the dialog that appears when you click the Edit button. You can also encrypt for all the recipients in a List by selecting a List name. It is okay to strip the header and footer up to the "==" signs, but not recommended.  It is also okay to split the encrypted message with line returns. This message can be decrypted only by someone having the Key matching the Lock used to encrypt it. Additionally, they must have your Lock in order to verify that it comes from you. If you have checked <strong>Include my Lock</strong> in the Options tab before encryption, your Lock will be prepended to the encrypted message.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Decrypt a Signed message</h3>
+      </div>
+      <div class="helpText">
+        <p>1. If the sender's Lock has been previously stored in the local directory, simply select its name in the top box of the <strong>Main</strong> tab.</p>
+        <ul>
+          <li>If not, click the <strong>Edit</strong> button next to the directory box and paste the sender's Lock in the dialog that appears. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>2. Paste the encrypted message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>3. If the message doesn't decrypt automatically, click the <strong>Decrypt</strong> button. The decrypted message
+          will replace the encrypted message.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=R9UanENF3ro" target="_blank">https://www.youtube.com/watch?v=R9UanENF3ro</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>It is okay if the message is broken up by carriage returns or is missing its header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt a message so that nobody can read it after the exchange is over (Read-once mode)</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Make sure <strong>Read-once</strong> mode is selected at the bottom of the <strong>Main</strong> tab.</p>
+        <p>2. Select the recipients' Locks in the top box of the <strong>Main</strong> tab. This mode requires the recipients' Locks to be previously stored in the local directory. </p>
+        <p>3. Write or paste your message in the lower box of the <strong>Main</strong> tab. You can give it rich formatting or add images and files if you display the formatting toolbar by clicking the <strong>Rich</strong> button.</p>
+        <p>4. Click the <strong>Encrypt</strong> button. The
+          encrypted message will appear in the box, replacing the original message.</p>
+        <p>Copy it and paste it into your
+          communications program or click <strong>Email</strong> to open your default email.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=VutWfWZW5bY" target="_blank">https://www.youtube.com/watch?v=VutWfWZW5bY</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>This message can be decrypted only by someone having the Key matching one of the Locks selected, and your Lock, and then typically only once. In order to restart a Read-once conversation that has gone out of sync, clear the old data for that recipient by clicking the <strong>Reset</strong> button in the directory <strong>Edit</strong> dialog  after the recipient's name is displayed above the box (you may have to type the name in the box for this to happen), then encrypt the message normally. The first message after a reset does not have forward secrecy, so be careful here. To encrypt for all recipients in a List, select the List in the top box of the Main screen. It is okay to strip the Lock header or footer up to the "==" signs.  It is also okay to split the encrypted message with line returns. If you have checked <strong>Include my Lock</strong> in the Options tab before encryption, your Lock will be prepended to the encrypted message.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Decrypt a message that was encrypted in Read-once mode</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Select the sender's Lock on the top box of the <strong>Main</strong> tab. This mode requires the sender's Lock to be previously stored in the device's local directory.</p>
+        <p>2. Paste the encrypted message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>3. If the message doesn't decrypt automatically, click the <strong>Decrypt</strong> button. The decrypted message
+          will replace the encrypted message.</p>
+        <p>4. A popup will ask whether you want to make the decrypted message un-decryptable immediately, or wait until you reply to the message. Click Cancel if you have received more than one Read-once message from this sender since your last reply, for otherwise it won't be possible to decrypt the other messages. Click OK otherwise.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=VutWfWZW5bY" target="_blank">https://www.youtube.com/watch?v=VutWfWZW5bY</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Usually you can decrypt the message only once, since the ephemeral key needed to decrypt it is overwritten in the process, but after a reset the first message can be decrypted forever. It is okay if the message is broken up by carriage returns or is missing its header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Reset a Read-once conversation</h3>
+      </div>
+      <div class="helpText">
+        <p>This may be needed if the conversation with a given correspondent has gone out of sync so that you are unable to decrypt a new Read-once message from this person. Resetting clears ephemeral Keys and Locks on both sides, and re-initiates the Read-once exchange.
+        <p>1. Click the <strong>Edit</strong> button next to the Lock selection box.</p>
+        <p>2. Start writing the name given to the correspondent in the dialog. As you type, the line above the box displays existing items matching what you have typed so far. You can stop typing once you see the complete name you're looking for. Search is case-insensitive.</p>
+        <p>3. Click the <strong>Reset</strong> button. A popup asks you to confirm the action, and then a message tells you that it has been done.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=VutWfWZW5bY" target="_blank">https://www.youtube.com/watch?v=VutWfWZW5bY</a></p>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Send a KyberLock item (Lock, encrypted message, etc.) by email</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Check that the item displayed on the <strong>Main</strong> tab is KyberLock output. If it is not, the button you need to press in the next step won't be there.</p>
+        <p>2. Click the <strong>Email</strong> button. If the device is so configured, a window appears containing the item and some explanatory text. You only need to supply the recipient's email address and a subject line before clicking the Send button.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=LsljKvjAi9I" target="_blank">https://www.youtube.com/watch?v=LsljKvjAi9I</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Be aware that there is a limit to the size of a message that is made this way. If you get an error, you can always copy the contents of the box and paste it into a normal mail compose screen. To open it in a different email client or in case the button is not visible or the new window fails to appear, copy it to the clipboard and then paste it into the &quot;compose&quot; box of your favorite email.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Send a KyberLock item by Text messaging</h3>
+      </div>
+      <div class="helpText">
+        <p>KyberLock output is too large to be sent by standard SMS texting, but you may be using a texting app, such as iMessage or WhatsApp, that has a much larger limit. In this case the process below may be useful.</p>
+        <p>1. Check that the item to be sent is displayed on the <strong>Main</strong> tab.
+        <p>2. Tap the button dealing with text messaging, which is labeled <strong>SMS</strong>. A window appears with the default texting app (setting it in a computer up may require additional steps).</p>
+        <p>3. Tap the input box and then paste the clipboard, which will contain the encrypted message. Send the message in the usual way.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=LsljKvjAi9I" target="_blank">https://www.youtube.com/watch?v=LsljKvjAi9I</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>To decrypt a encrypted message received by texting, you must first copy it to the clipboard, and then paste it on the <strong>Main</strong> tab of KyberLock. Due to browser restrictions, there is no way to know whether the item has been copied to clipboard, but hopefully the process above is fairly foolproof.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Load files to be encrypted, sealed, or split</h3>
+      </div>
+      <div class="helpText">
+        <p>1. The button to load files is near the right end of the formatting toolbar, which is displayed by clicking the <strong>Rich</strong> button. It looks like this: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAMAAABhEH5lAAAATlBMVEUAAAAAAAD19fVcXFwbGxsTExP8/PzT09NxcXFaWlo4ODg1NTUEBAT5+fnw8PDr6+vU1NTIyMi+vr6Xl5dsbGxnZ2dXV1dISEghISEMDAw0f0rSAAAAAXRSTlMAQObYZgAAAFBJREFUGNO9yEkOgCAQBMBmUxDc9/9/VJ2EjgkHb9axcJuceqQRtMq4aAdWkDr6xtW5jJRFx2MBu23fdS7eG6Vz0U8VytrKmhMnVoDQlOfbBQLIAl4FF2fyAAAAAElFTkSuQmCC" /></p>
+        <p>2. When you click it, a dialog will appear so you can navigate to the file. If all goes well, the file loads into the box as a link. You will see only its name, but the whole file is actually in there.</p>
+        <p>Now you can encrypt it, seal it, or split it just like a text-based message. You can also add more files if you want. The process to retrieve the original files is explained in the help item below.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=tPeUv6BRTrg" target="_blank">https://www.youtube.com/watch?v=tPeUv6BRTrg</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Be aware that mobile devices (especially in iOS) often place severe restrictions on accessing stored content. If using a Chromebook, be aware that the Files extension does not load Google documents completely; save the file locally in a different format and try loading it again.</p>
+          <p>You can also put images in your message, by clicking the button immediately to the left of the one to load files. In this case the content is displayed as an image rather than a link.</p>
+          <p>If you plan to send large files by email or other means, it is best to encrypt them with an archiving program such as 7zip, Winzip, or Winrar (Windows), Keka (OSX), or p7zip (Linux) using AES and a random symmetric key, and then use KyberLock to encrypt that symmetric key for transmission, along with the encrypted files as attachments.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Retrieve a file that has just been decrypted, unsealed, of joined</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Make sure the file appears as a link on the Main box.</p>
+        <p>2. A button below the Main box will be labeled <strong>Save</strong>. Click it to download all the files in the Main box. You can also use the rightmost button on the toolbar.</p>
+        <p>3. For small enough files, you can also right-click on its link and select the <strong>Save link as</strong> option. The file will be saved at the location you select.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=tPeUv6BRTrg" target="_blank">https://www.youtube.com/watch?v=tPeUv6BRTrg</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Chrome does not display the <strong>Save link as</strong> option if the file is larger than 1.5MB. Be aware that mobile devices (especially on iOS) place severe restrictions on what files can be saved, and where.</p>
+        </div>
+      </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>File output</h3>
+        </div>
+        <div class="helpText">
+          <p>If you select <strong>File output</strong> on the <strong>Options</strong> tab before encrypting, sealing, or splitting, the result of the operation appears as a file (several, in the case of splitting), which you can then save anywhere with the Save button. Doing this will speed up things considerably if you are encrypting, sealing, or splitting something large.</p>
+          <p>The file will be binary with extension .kyb</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=Sm4f6FIOShI" target="_blank">https://www.youtube.com/watch?v=Sm4f6FIOShI</a></p>
+         <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+         <p>An output item loaded as a file can be decrypted, unsealed, or joined just like an item loaded as text. It can also be sent by email as an attachment, which is handy when the item is large. Feel free to change the file name or extension to something else, but to decrypt, unseal, or join files made this way, you must make sure the extension is .kyb before you load them or KyberLock may fail to recognize them as its own output. Be aware that mobile devices (especially on iOS) often make it difficult to work with files.</p>
+        </div>
+        </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Make an invitation to join a real-time multi-party chat session</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Select the other participants in the chat on the list at the top of the <strong>Main</strong> tab. You are added automatically.</p>
+        <p>2. Click the <strong>Chat</strong> button, which is below the box. A dialog will appear asking you whether this chat is going to involve text and files only, or also will involve audio, or  video, or be hosted by Jitsi, an open-source videoconference service. There is also a text box where you can optionally type something that will be shown to the users (such as the date and time for the chat) before they join the chat.</p>
+        <p>3. Supply the required information and click <strong>OK</strong>. If the main box did not contain a chat invitation, a new one is generated and placed there. You can now email it with the <strong>Email</strong> button, or send it out by any other means.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=XytUN0T_2zQ">https://www.youtube.com/watch?v=XytUN0T_2zQ</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p> Please tell participants about the time for the chat. When the time comes, you will join the chat using the same invitation as the other parties, so make sure to save it somewhere. All browsers can make a chat invitation, but some (Internet Explorer, Safari, native Android app, anything on iOS) may not support joining the actual chat.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Use an invitation to join a real-time chat session</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Place the invitation in the Main box and click the <strong>Chat</strong> or the <strong>Decrypt</strong> button if it does not decrypt automatically. If the sender added a message, it will be displayed and you will have to click <strong>OK</strong> to go on, or <strong>Cancel</strong> to try later.</p>
+        <p>2. A new screen opens. Write the name you want to use for the chat in the top box, check that the type of chat offered is what everyone agreed on, and then click<strong> Join</strong>.</p>
+        <p>3. As participants join the chat session, their chosen names will appear at the top of the chat screen (or a randomly-chosen tag, if they didn't supply a name). You can then post text by writing it in the Text box, followed by Enter. You can also post files by clicking the Browse or Files button.</p>
+        <p>4. If the chat involves audio or video, you may be asked to give permission to access you microphone and camera. After you grant it, you will see or hear the other participants as they join, and likely yourself too. Jitsi chats are the most polished, but participants connect through a server rather than one-on-one as in the other types.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=XytUN0T_2zQ">https://www.youtube.com/watch?v=XytUN0T_2zQ</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p> Connections between participants are direct in all chat types except Jitsi, but a signaling server is used at the start so the participants can find one another, and then it is contacted no more. KyberLock will remind you that this may lead to your being tracked. The connection will stay alive until all the participants leave. If things get out of hand, you can always reset your session by reloading the chat page. At that point you'll have the chance to change the kind of chat if you so desire.</p>
+          <p>Browsers are not equal as far as support for chat: Firefox and Chrome are the best, followed by the Android browser, Maxthon, and then Opera (with problems). Internet Explorer, Tor, Safari, and anything on iOS will be more problematic, though you can make a chat invitation from them.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt a message with a shared Key, to be decrypted with the same Key</h3>
+      </div>
+      <div class="helpText">
+        <p>1. If the Keys shared with each of the recipients have been previously stored in the local directory, simply select their names in the top box of the <strong>Main</strong> tab.</p>
+        <ul>
+          <li>If not, and you are not using read-once mode, click the <strong>Edit</strong> button next to the directory box and paste the shared Keys, one per line, in the dialog that appears. You can mix shared Keys and Locks. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>2. Write or paste the message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>3. Click the <strong>Encrypt</strong> button. The
+          encrypted message will appear in the box, replacing the original text.</p>
+        <p>Copy it and paste it into your
+          communications program or click <strong>Email</strong> to open your default email program. </p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number):<a href="https://www.youtube.com/watch?v=sRdpWe4zya8" target="_blank">https://www.youtube.com/watch?v=sRdpWe4zya8</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>This message can be decrypted only by someone having the same shared Key. It is okay to strip the header or footer. It is also okay to split the encrypted message with line returns.</p>
+          <p>If you have checked <strong>Include my Lock</strong> in the Options tab before encryption, your Lock will be prepended to the encrypted message.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Decrypt a message encrypted with a shared Key</h3>
+      </div>
+      <div class="helpText">
+        <p>1. If the Key shared with the sender has been previously stored in the local directory, simply select its name in the top box of the <strong>Main</strong> tab.</p>
+        <ul>
+          <li>If not, and the message is not Read-once, click the <strong>Edit</strong> button next to the directory box and paste the shared Key in the dialog that appears. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>2. Paste the encrypted message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>3. If the message does not decrypt automatically, click the <strong>Decrypt</strong> button. The decrypted message
+          will appear in the main box, replacing the encrypted message.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number):<a href="https://www.youtube.com/watch?v=sRdpWe4zya8" target="_blank">https://www.youtube.com/watch?v=sRdpWe4zya8</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>It is okay if the message is broken up by carriage returns or is missing its header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt a second, undetectable message in addition to the main message (Hidden message mode)</h3>
+      </div>
+      <div class="helpText">
+        <p>1. On the <strong>Options</strong> tab, check the <strong>Hidden message</strong> checkbox.</p>
+        <p>2. Follow the above instructions for any kind of regular encryption. A popup will ask for a hidden message and a special Key to encrypt it.</p>
+        <p>3. Input the hidden message, up to 160 characters, into the top box and the special shared Key in the bottom box. Then click <strong>OK</strong>. </p>
+        <p>The encrypted message containing both the main text and the hidden text will appear in the main box, replacing the original text. Copy it and paste it into your communications program.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=4WrYEdRp2Q4" target="_blank">https://www.youtube.com/watch?v=4WrYEdRp2Q4</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Plausible deniability is important, and so it is impossible to tell whether or not a encrypted item contains a hidden message. Non-ASCII characters use 6 spaces each and space is limited, so avoid them if you can. Any text beyond the 160-character limit will be lost. If a shared Key is used for the second message, the same shared Key is needed to retrieve it.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Reveal the hidden text contained within a message encrypted in Hidden message mode</h3>
+      </div>
+      <div class="helpText">
+        <p>1. On the <strong>Options</strong> tab, check the <strong>Hidden message</strong> checkbox.</p>
+        <p>2. Follow the instructions for any of the regular decrypting modes. A popup will ask for a Hidden message Key.</p>
+        <p>3. Input the special Key, then click <strong>OK</strong>. The hidden message, if it exists, will appear above the main box.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=4WrYEdRp2Q4" target="_blank">https://www.youtube.com/watch?v=4WrYEdRp2Q4</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Since it is impossible to detect the presence of a hidden message, it is necessary to click the <strong>Hidden message</strong> checkbox in order to check for it. A failed decryption of the hidden message can mean that the special Key is wrong, or that there is no message. No way to tell.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt a message with a Pad, to be decrypted with the same Pad</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Copy the text to be used as Pad from its source. It should be at least five times as long as the message, or Pad mode won't engage. You can also load a whole file that is at least five times as long as the message.</p>
+        <p>2. If the Pad text has been saved to the directory, simply select its name. Otherwise, click the <strong>Edit</strong> button next to the directory box and paste the shared Pad in the dialog that appears. You can also load a file by means of a button visible in the Advanced interface. Then click <strong>Done</strong>.</p>
+        <p>3. Write the message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>4. Click the <strong>Encrypt</strong> button. If Pad mode is engaged, a popup will ask for the starting position in the Pad. If Pad mode did not engage, the Pad text will be considered a shared Key to encrypt the message in the standard way; a warning popup will appear if there are several paragraphs).</p>
+        <p>5. Write a number within the range given in the dialog and click <strong>OK</strong>. The
+        encrypted message will appear in the box, replacing the original text.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=BEXYuaCxciM" target="_blank">https://www.youtube.com/watch?v=BEXYuaCxciM</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Pad mode is <em>theoretically impossible to break</em>, even by brute force. Use it when you need utmost security. The text material can be taken from a digital book, for instance. You may transmit in plaintext the page number and starting position, so long as the text source is kept secret. Put your browser in Incognito mode or similar if you use it to retrieve the text.</p>
+          <p>It is okay to split the encrypted message with line returns or to eliminate header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab. PassLok and URSA can also encrypt and decrypt in this mode.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Decrypt a message encrypted with a Pad</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Copy the text to be used as Pad from its source (use Incognito mode ir similar, if it comes from the Web). It should be at least five times as long as the message, or Pad mode won't engage. You can also load a whole file that is at least five times as long as the message.</p>
+        <p>2. If the Pad text has been saved to the directory, simply select its name. Otherwise, click the <strong>Edit</strong> button next to the directory box and paste the shared Pad in the dialog that appears. You can also load a file by means of a button visible in the Advanced interface. Then click <strong>Done</strong>.</p>
+        <p>3. Paste the encrypted message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>4. Click the <strong>Decrypt</strong> button if decrypting does not start automatically. A popup will ask for the starting position in the Pad.</p>
+        <p>5. Write the numerical starting position in the popup and click <strong>OK</strong>. The decrypted message will appear in the main box, replacing the encrypted message.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=BEXYuaCxciM" target="_blank">https://www.youtube.com/watch?v=BEXYuaCxciM</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>It is okay if the message is broken up by carriage returns or is missing header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab. PassLok and URSA can also encrypt and decrypt in this mode.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Encrypt in Human mode, so it can be decrypted by hand</h3>
+      </div>
+      <div class="helpText">
+          <p>1. If the four- or five-part Key shared with the recipient has been previously stored in the local directory, simply select its name in the top box of the <strong>Main</strong> tab.</p>
+        <ul>
+          <li>If not, click the <strong>Edit</strong> button next to the directory box and type the Human mode Key, which consists of <em>four text strings separated by tildes </em>"~", optionally followed by another tilde and a (low) integer number. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>2. Write the message in the lower box of the <strong>Main</strong> tab. This mode understands only Latin characters, and removes any accents and diacritic marks. </p>
+        <p>3. Click the <strong>Encrypt</strong> button.    </p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=npROBlHjxmc" target="_blank">https://www.youtube.com/watch?v=npROBlHjxmc</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>This mode engages automatically if the Key consists of four strings separated by tildes, plus an optional digit. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab or on the <strong>Options</strong> tab.</p>
+          <p>The method is described in detail in this page, which can also encrypt and decrypt messages: <a href="https://KyberLock.com/human" target="_blank">https://KyberLock.com/human</a>. PassLok and URSA can also encrypt and decrypt in this mode. Even though encryption and decryption can be performed without a computer, security against computer-based cryptanalysis is comparable to that of computer-based ciphers.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Decrypt a message encrypted in Human mode</h3>
+      </div>
+      <div class="helpText">
+        <p>1. If the four- or five-part Key shared with the recipient has been previously stored in the local directory, simply select its name in the top box of the <strong>Main</strong> tab.</p>
+        <ul>
+          <li>If not, click the <strong>Edit</strong> button next to the directory box and type the Human mode Key, which consists of <em>four text strings separated by tildes </em>"~", plus an optional (low) integer number. Then click <strong>Done</strong>.</li>
+        </ul>
+        <p>2. Paste the encrypted message in the lower box of the <strong>Main</strong> tab.</p>
+        <p>3. Click the <strong>Decrypt</strong> button if decrypting does not start automatically. Unlike in other modes, you won't get a message telling you whether or not the decryption has been successful.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=npROBlHjxmc" target="_blank">https://www.youtube.com/watch?v=npROBlHjxmc</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>It is okay if the message is broken up by carriage returns or is missing its header or footer. It doesn't matter which encryption mode is selected at the botton of the <strong>Main</strong> tab.</p>
+          <p>If you want to learn how to encrypt or decrypt in this mode, using simply paper and pencil, look at the instructions in this page, which also does encryption and decryption: <a href="https://KyberLock.com/human" target="_blank">https://KyberLock.com/human</a>. This page also facilitates the decryption of messages that contain errors. PassLok and URSA can also encrypt and decrypt in this mode.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Retrieve a Lock or shared Key from the local directory</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Click the <strong>Edit</strong> button next to the directory box.</p>
+        <p>2. Start writing the name of the item in the box that appears. As you type, the line above the box displays existing names that match what you have typed so far, plus its fingerprint if the item is a Lock. When you see that the correct name has been found, you may stop typing; KyberLock will use that item to encrypt or decrypt.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=vQrED7eIkLA" target="_blank">https://www.youtube.com/watch?v=vQrED7eIkLA</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p> The process also works for Lists, Pads, and cover texts stored in the local directory. Search is case-insensitive. If the item is a cover text, it loads automatically for use in Text hiding.</p>
+          <p>(<em>Chrome/Firefox app only</em>) If you type "Enter" after a complete name that was not found on the local database and <strong>Chrome sync</strong> is checked in Options, KyberLock will look for it in its Chrome sync area, which syncs across computers, and then add it to the local directory.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Delete a stored item</h3>
+      </div>
+      <div class="helpText">
+        <p>1. Click the <strong>Edit</strong> button next to the directory box.</p>
+        <p>1. Start writing the name of the item in the dialog that appears. As you type, the line above the box displays existing names that match what you have typed so far.</p>
+        <p>2. When the name of the item you want to remove is displayed above the box, click the <strong>Delete</strong> button. A popup asks for confirmation before the item is deleted from the local directory.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=vQrED7eIkLA" target="_blank">https://www.youtube.com/watch?v=vQrED7eIkLA</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>You can stop typing once you see the complete name for the item you are looking for. Search is case-insensitive.</p>
+          <p>(<em>Chrome/Firefox app only</em>)  If <strong>Chrome sync</strong> is checked in Options,  the item will also be deleted from there, after a confirmation popup.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Make a video to authenticate your Lock</h3>
+      </div>
+      <div class="helpText">
+        <p>What should the video include:</p>
+        <ul>
+          <li> Identify yourself (First and Last name, or other).</li>
+          <li> Write your Lock's fingerprint, which consists of case-insensitive letters and digits, on a sign and display it, and then read it out loud.</li>
+          <li> Play a song in the background to ensure the video is not tampered with. If it is not well known, all the better.</li>
+          <li> The video will end up being about one minute long.</li>
+          <li> Sadly, your voice will be easy to fake convincingly, so you may want to emphasize some of the letters or numbers so your face shows emotion, which is still hard to fake on video.</li>
+        </ul>
+        <p>What to do with the video: </p>
+        <ul>
+          <li> Upload the video to the Web and send the video URL along with your Lock.</li>
+        </ul>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=zkcqEz3UjnM" target="_blank">https://www.youtube.com/watch?v=zkcqEz3UjnM</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>It is highly recommended that you make a video whenever you change your secret Key, so that others can be assured that the matching Lock really belongs to you. Obviously, you wouldn't do this for a shared Key or a Pad, only for a Lock.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Add, remove, and backup users</h3>
+      </div>
+      <div class="helpText">
+        <p>To add a new user:</p>
+        <p>1. Reload KyberLock. Then click the <strong>New User</strong> button next to the user selection box.</p>
+        <p>To backup and optionally remove an existing user (advanced):</p>
+        <p>1. While you are logged in with that user's Key, go to the <strong>Options</strong> tab and click the Backup/Remove <strong>Whole Directory</strong> button (visible in the Advanced interface).</p>
+        <p>2. Then a prompt asks you to confirm deleting the directory from the device. If you click <strong>OK,</strong> the entire local directory for that user is deleted, leaving no traces. If you click <strong>Cancel</strong>, the process ends and the directory contents are not deleted. In both cases the backup on the <strong>Main</strong> tab remains.</p>
+        <p>3. To retrieve a backed-up directory, paste it into the <strong>Main</strong> tab, and click <strong>Decrypt</strong> if it does not decrypt automatically. The database will be decrypted and placed in the directory Edit dialog. Then you can add it to the device's current local directory by clicking <strong>Merge</strong>.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=8zo-N5O82iM" target="_blank">https://www.youtube.com/watch?v=8zo-N5O82iM</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>You can maintain multiple identities, using different Keys. The backup process is useful whenever you stop using a device or just want to transfer your data to another device.</p>
+          <p>(<em>Chrome app only</em>) Even if the local directory is completely deleted, the items in your Chrome sync area remain available if you click <strong>Cancel</strong> when KyberLock offers to remove them from sync as well. They will load back automatically, even on a different machine, if you set up a user with <em>the same user name</em>.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Access the advanced functions of KyberLock</h3>
+      </div>
+      <div class="helpText">
+        <p>KyberLock launches first in Basic mode, so you are able to encrypt and decrypt messages and perform the essential directory management functions. But the app has a lot more capabilities, which become available when you click the <strong>Advanced</strong> checkbox in the <strong>Options</strong> tab. To get back to Basic mode, click the <strong>Basic</strong> checkbox. KyberLock will remember your choice of interface next time you open it.</p>
+        <p>Some advanced capabilities include:</p>
+        <ul>
+          <li>Apply a seal to a text, and verify its authenticity.</li>
+          <li>Hide KyberLock's random-looking output inside images or as apparently normal text.</li>
+          <li>Change the user name, the Key, or the email/token.</li>
+          <li>Backup or erase user settings, or even the entire local directory.</li>
+        </ul>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=Ttyvb0Qt7h0" target="_blank">https://www.youtube.com/watch?v=Ttyvb0Qt7h0</a></p>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Are there any keyboard shortcuts?</h3>
+      </div>
+      <div class="helpText">
+        <p>The main functions in KyberLock can be accessed directly from the keyboard. The button tooltips tell you what the shortcut is for each button that has a shortcut, but below is a complete list, just in case: </p>
+        <ul>
+          <p>Alt-M: <strong>M</strong>ain tab</p>
+          <p>Alt-H: <strong>H</strong>elp tab</p>
+          <p>Alt-O: <strong>O</strong>ptions tab</p>
+          <p>Alt-0: Deselect all Locks</p>
+          <p>Alt-E: <strong>E</strong>dit the Lock directory</p>
+          <p>Alt-<strong>.</strong> <em>(period)</em>: extra buttons open and close</p>
+          <p>Alt-D: encrypt or <strong>D</strong>ecrypt</p>
+          <p>Alt-V: seal or <strong>V</strong>erify seal</p>
+          <p>Alt-L: display my <strong>L</strong>ock or send emai<strong>L</strong></p>
+          <p>Alt-R: toggle the <strong>R</strong>ich text editor</p>
+          <p>Alt-C: start or join <strong>C</strong>hat</p>
+          <p>Alt-B: use the <strong>B</strong>asic interface</p>
+          <p>Alt-A: use the <strong>A</strong>dvanced interface</p>
+          <p>Alt-N: set a<strong>N</strong>onymous mode</p>
+          <p>Alt-S: set <strong>S</strong>igned mode</p>
+          <p>Alt-1: set Read-<strong>once</strong> mode</p>
+          <p>Alt-T: hide/unhide as <strong>T</strong>ext</p>
+          <p>Alt-I: <strong>I</strong>mage screen open and close</p>
+          <p>Alt-J: split or <strong>J</strong>oin parts</p>
+          <p>Alt-<strong>;</strong> <em>(semicolon)</em>: put cursor on main box</p>
+          <p>Alt-G: <strong>G</strong>eneral Directory</p>
+        </ul>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>The list is made for access from Windows or Linux, so that each shortcut is of the form Alt-<em>letter</em>. If you are using a Mac, you should type ctrl-alt-<em>letter</em> instead. Shortcuts do not work on mobile devices.</p>
+        </div>
+      </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Seal a text with your secret Key so others know it comes from you <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Write or paste the text to be sealed in the lower box of the <strong>Main</strong> tab.</p>
+          <p>2. Click the <strong>Seal</strong> button. The text is replaced by a random-looking item, which is the sealed text. Copy
+            it or email it from there.</p>
+          <p>You must be aware that a sealed item is <strong>NOT ENCRYPTED</strong>, and that anyone in the world can unseal it so long as he/she has your Lock, which is public.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=Vh9wwFZiV4w" target="_blank">https://www.youtube.com/watch?v=Vh9wwFZiV4w</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>It is okay to strip header and footer. It is also okay to split the sealed item with carriage returns. Sealed items can be unsealed only in KyberLock.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Unseal a sealed text and verify its origin <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. If the sealer's Lock has been previously stored in the local directory, simply select its name in the top box of the <strong>Main</strong> tab.</p>
+          <ul>
+            <li>If not, click the <strong>Edit</strong> button next to the directory box, then paste the Lock in the box that appears and click <strong>Done</strong>. </li>
+          </ul>
+          <p>2. Paste the sealed item in the lower box of the <strong>Main</strong> tab.</p>
+          <p>3. If the item doesn't unseal automatically, lick the <strong>Unseal</strong> button. If successful, the sealed item will be replaced by the unsealed text, and a message above the main box will say whether or not the seal has been verified for that sealer.</p>
+          <p>You must be aware that being able to unseal an item does not mean that others are not able to do it just as easily, because a sealed item is <strong>NOT ENCRYPTED</strong>. What unsealing does is verify that the item could only have been sealed by the selected person.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=Vh9wwFZiV4w" target="_blank">https://www.youtube.com/watch?v=Vh9wwFZiV4w</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p> Unsealing requires a true Lock; shared Keys cannot be used for unsealing. Encrypting/decrypting with a shared Key partially verifies the identity of the sender, since shared Keys are not public. Decrypting a Signed or Read-once encrypted item also verifies the encrypter's identity.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Conceal a KyberLock item (Lock, message, etc.) inside a piece of text <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Check that the item to be converted into fake text is on the <strong>Main</strong> tab. Then click the <strong>&#9660;</strong> button, if needed, to show the <strong>Text hide</strong> button.</p>
+          <p>2. If you wish to use a cover text different from the default and you have stored it in the local directory, select it on the top box of the <strong>Main</strong> tab. Otherwise click the <strong>Edit</strong> button and enter the new cover text in the dialog, then return to the <strong>Main</strong> tab.</p>
+          <p>3. Make sure the hiding mode you want is the one selected in the <strong>Options</strong> tab. There are five different modes: Invisible, Letters, Words, Spaces, and Sentences. Letters (default) encodes the item as identical-looking non-ASCII characters in the cover text, so the text still reads normally. Words replaces each character by two words. Spaces encodes the characters into the spaces between words. Sentences encodes characters as grammatically correct sentences. Invisible mode encodes into invisible characters between two lines, which can then be completed to look like a normal message.</p>
+          <p>4. If now you click the <strong>Text hide</strong> button, the KyberLock item is converted into text, using words from the cover text. You may have to complete the last sentence manually.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=_7Fju1EwhV4" target="_blank">https://www.youtube.com/watch?v=_7Fju1EwhV4</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>The recipient does not need to have the cover text in order to retrieve the original. The output of Spaces and Sentences encoding is roughly six times longer than that of Letters or Words encoding. The most grammatically-correct output is that or Letters and Spaces (identical to the cover text), followed by Sentences; Words output doesn't make much grammatical sense. Invisible encoding has no impact on intelligibility, but care must be taken to copy the entire invisible content. If the cover text is not long enough, it will be repeated several times. When you use Spaces or Letters encoding, you should be careful not to add or delete any spaces within the encoded text, but it is okay to add a few extra letters to complete the last sentence. Also be aware that some services replace the special characters in Letters- and Invisible-encoded items with something else, thus corrupting the items.</p>
+            <p>Text encoding is no substitute for real encryption, and so KyberLock will refuse to convert into text anything that does not look like genuine KyberLock output.</p>
+            <p>Cover texts do not have to be in English or even use Latin characters. Anything that can be written in UTF-16 encoded characters can be used (most languages, including Arabic and Chinese, will work fine).</p>
+            <p>You can store often-used cover texts in your local directory so they can be loaded easily from the <strong>Main</strong> tab. To do this, click the <strong>Edit</strong> button next to the directory box when the <strong>Text Hide</strong>button is showing, then paste the cover text in the lower box, and click <strong>Save</strong>. A popup will ask you to write a name for the stored cover text.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Retrieve an original KyberLock item concealed within text <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Put the text in the box of the <strong>Main</strong> tab.</p>
+          <p>2. Click the <strong>&#9660;</strong> button, if needed, followed by the <strong>Text hide</strong> button. KyberLock will detect the type of encoding used and display the original item in the box, replacing the text.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=_7Fju1EwhV4" target="_blank">https://www.youtube.com/watch?v=_7Fju1EwhV4</a></p>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Hide a KyberLock item inside an image <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Make sure the item to be hidden is in the lower box of the <strong>Main</strong> tab.</p>
+          <p>2. Click the <strong>&#9660;</strong> button, if needed, and then the <strong>Image hide</strong> button.</p>
+          <p>3. A dialog appears to load the image where the item is to be hidden. The image format does not matter, so long as it can be displayed in a web page. Then the image appears in a new dialog, along with a few controls and a message telling you how much data you can hide in the image.</p>
+          <p>4. You will get much better stealth if you write a password in the box on that dialog. In this case, anyone trying to extract the hidden data will fail to detect that anything is there unless he/she also supplies the same password.</p>
+          <p>5. Click the <strong>PNG hide</strong> or the <strong>JPG hide</strong> button, depending on the format of the image you want to produce. A message will say when processing is completed, although the image will not appear to have changed much.</p>
+          <p>6. Right-click or long-press on the image in order to save it or send it somewhere. Then you can close the dialog with the <strong>Done</strong> button.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=_iXIyH6AnMI" target="_blank">https://www.youtube.com/watch?v=_iXIyH6AnMI</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>You can hide a second short message, in addition to the item in the main box, by writing after the image password a vertical bar "|", followed by a second password just for the second message, another vertical bar, and then the second message. How long the second message can be depends on the way the main box item is hidden, and cannot be known beforehand, but the process will fail if it is too long.</p>
+            <p>Images only a few kB in size can hide KyberLock items with hundreds of characters. Images taken with a mobile camera will take longer to process, but have a large capacity. Noisy images work better than images with single-color areas. JPG images containing information use no chroma subsampling. The PNG format can contain a lot more information, but file size will be larger.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Retrieve the KyberLock item hidden inside an image <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Navigate to the image hiding screen from the <strong>Main</strong> tab by clicking <strong>&#9660;</strong>, if needed, and then <strong>Image hide</strong>.</p>
+          <p>2. A dialog appears to load the image where the item is hidden.  Then the image appears in a new dialog.</p>
+          <p>3. If a password was used to hide the data, you must write the same password in the box on that dialog. Otherwise the revealing process will fail exactly as if the image did not contain anything.</p>
+          <p>4. Click the <strong>Reveal</strong> button. If succesful, the dialog closes and the hidden data appears in the main box. If unsuccessful, the dialog stays so you can try a different password; or you can close the dialog with the <strong>Done</strong> button.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=_iXIyH6AnMI" target="_blank">https://www.youtube.com/watch?v=_iXIyH6AnMI</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>This function is available on Android, but not on iOS. This is because iOS converts all images to JPG format as they are loaded, thus destroying any hidden information.</p>
+            <p>If there is a second message hidden in the image, you can reveal it by writing after the image password a vertical bar "|", followed by the second password. If successful, the second message will appear in the message area of the Main tab.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Split an item into several random-looking parts <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Put the item in the lower box of the <strong>Main</strong> tab.</p>
+          <p>2. Click the <strong>&#9660;</strong> button, if needed, and then click the <strong>Split</strong> button. </p>
+          <p>3. A popup asks for the total number of parts to be made, and the minimum number required to retrieve the original. Enter those numbers, which must be between 2 and 255, and click <strong>OK</strong>. The parts appear in the main box, replacing the original item, and a message confirms it. Copy the parts one by one and send or store them as needed.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=ZdVHaD-FpSk" target="_blank">https://www.youtube.com/watch?v=ZdVHaD-FpSk</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>It is okay to strip the headers and footers.  It is also okay to split the parts with line returns. If you enter nothing in the second box, it is understood that all parts will be required to retrieve the original. Split items can be joined in PassLok as well.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Join parts to retrieve the original item <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Paste a sufficient number of parts on separate lines of the lower box in the <strong>Main</strong> tab. Make sure that each part is unique. </p>
+          <p>2. Click the <strong>&#9660;</strong> button, if needed, and then the <strong>Join</strong> button. If all goes well, the reconstructed item appears in the box.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=ZdVHaD-FpSk" target="_blank">https://www.youtube.com/watch?v=ZdVHaD-FpSk</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>You need as many parts as the second number entered when the item was split. Having more parts than the minimum is okay, so long as they belong to the same set and are not corrupt. They don't need to be placed in any particular order. If nothing happens, likely causes include: insufficient number of parts, incomplete or corrupt parts, parts belonging to different sets.</p>
+          </div>
+        </div>
+        <hr>
+        
+        <div class="helpHeading">
+          <h3>Change your secret Key <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Click the Change <strong>Key</strong> button on the <strong>Options</strong> tab. A new dialog will pop up asking you to enter the new Key twice.</p>
+          <p>2. Write the new Key in the two boxes in this dialog, and then click <strong>OK</strong>. A message will announce that the Key has changed. </p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=LubzBF4Xaa8" target="_blank">https://www.youtube.com/watch?v=LubzBF4Xaa8</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>The items in the local directory are encrypted with your Key; this operation re-encrypts them with the new Key. Your Key is not stored anywhere, not even encrypted, but KyberLock is still able to check whether the Key entered is the one in use.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Display the entire local directory <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Click the <strong>Edit</strong> button next to the Lock selection box.</p>
+          <p>2. Click the <strong>All</strong> button below the box that appears. The complete local directory, including encrypted Read-once data, is displayed in the box so you can find items and copy them easily.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=8zo-N5O82iM" target="_blank">https://www.youtube.com/watch?v=8zo-N5O82iM</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>The format for each item is the following: name, followed by a colon (:), new line, item data; then two new lines before the next name, and so forth. If a name also has Read-once data, those follow the item data, occupying consecutive lines. Item 'myself' is special, and contains your email (encrypted) and a collection of settings.</p>
+           <p>If you want to decrypt a particular piece of data from the directory, copy it and paste it into the main box. It should decrypt automatically and appear in the directory Edit dialog.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Merge additional data into the local directory <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Click the <strong>Edit</strong> button next to the Lock selection box.</p>
+          <p>2. Paste the additional data into the box hat appears.</p>
+          <p>3. Click the <strong>Merge</strong> button. The new data is merged into the local directory.</p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=8zo-N5O82iM" target="_blank">https://www.youtube.com/watch?v=8zo-N5O82iM</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>The format for the additional data must be the following: name, followed by a colon (:), new line, item data; then two new lines before the next name, and so forth. If a name also has Read-once data, those follow the item data, occupying consecutive lines. If the additional data contains names that were already in use in the directory, the new data replaces the original data. Items are added in encrypted form but are not checked as they are added, so it is possible that different items may need different Keys to be decrypted, if you changed your secret Key in the past. (<em>Chrome/Firefox app only</em>) If <strong>Chrome sync</strong> is checked in Options,  the additional data will also be added to that area so it is accessible from other computers.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Use Lists <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>You can always encrypt a message for multiple recipients by writing their respective Locks or shared Keys in separate lines of the box in the directory edit dialog. You can also write the names of the Locks or shared Keys instead. A List itself can be given a name in order to save it in the local directory. You do this by clicking the <strong>Save</strong> button. Saved Lists appear bracketed by double dashes in the top box of the <strong>Main</strong> tab.</p>
+          <p>To encrypt an item for all the recipients included in a saved List, just select its name in the directory box before clicking the <strong>Encrypt</strong> button.</p>
+          <p>Lists can contain Locks, shared Keys, or names of items in the local directory, but not names of other Lists. </p>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Make a random Key <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>KyberLock has a built-in way to make a 50-character random alphanumeric Key: </p>
+          <p>1. Click the <strong>Edit</strong> button next to the directory box.</p>
+          <p>2. On the dialog that appears, click <strong>Save</strong> with the lower box empty.</p>
+          <p>2. If you actually want to save the random Key, click <strong>Save</strong> and supply a name when asked. </p>
+          <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=3OUpuk3-tRo" target="_blank">https://www.youtube.com/watch?v=3OUpuk3-tRo</a></p>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Ask the participants in a Chat session to authenticate themselves <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. Inside the chat session, type a bunch of garbage, or paste in a random string produced as described in the previous item. You should expect the garbage back as a sealed item from each participant who has not yet done so.</p>
+          <p>2. When a sealed item is posted in the chat session, copy it and go back to the <strong>Main</strong> tab of KyberLock, then paste it there.</p>
+          <p>3. In the local directory, select the Lock belonging to the person who posted the signature, and click the <strong>Unseal</strong> button.</p>
+          <p>4. The original garbage string should be recovered, plus a message indicating that the sealer has been verified. If the seal is verified, this means that the one who posted it is indeed who he/she claims to be.</p>
+          <p>This is all explained in this video made for the very similar PassLok app: <a href="https://www.youtube.com/watch?v=NlEJJpF-Wmo" target="_blank">https://www.youtube.com/watch?v=NlEJJpF-Wmo</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>This process assumes that the Locks in your local directory have been authenticated, perhaps by means of videos. When asking others to authenticate themselves, it is important to ensure that the text they are asked to seal could not have been predicted ahead of time.</p>
+            <p>If there is no Lock for a participant, but rather a shared Key, he/she should instead encrypt the garbage text with that shared Key and post the result. Authentication will be complete once the encrypted text can be decrypted with the shared Key and the result matches the original.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Respond to a request for authentication posted in a Chat session <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>1. If you see a piece of garbage text posted by someone (especially if you have just joined), that means that anyone who has not yet authenticated him/herself is asked to do so. Copy the garbage text and go back to the <strong>Main</strong> tab of KyberLock, then paste it there.</p>
+          <p>2. Click the <strong>Seal</strong> button. The text will be sealed.</p>
+          <p>3. Copy the whole thing and go back to the chat session by clicking the <strong>Back to Chat</strong> button, then paste it into the chat box and submit it.</p>
+          <p>This is all explained in this video for the very similar PassLok app: <a href="https://www.youtube.com/watch?v=NlEJJpF-Wmo" target="_blank">https://www.youtube.com/watch?v=NlEJJpF-Wmo</a></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>If your chat invitation was encrypted with a shared Key rather than a Lock, you should instead encrypt the garbage text with that shared Key and post the result; authentication will be complete once the encrypted text can be decrypted with the shared Keyl.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="helpHeading">
+          <h3>Authenticate a Lock without using videos <em>(advanced)</em></h3>
+        </div>
+        <div class="helpText">
+          <p>The easy way: call the Lock's owner and ask him/her to read a substantial portion of the Lock's fingerprint over the phone. But if you are communicating exclusively by email you can send a person whom you know and who knows you the following message, or something like it:</p>
+          <p><br>
+            <em>Dear So-and-So:</em><br>
+            <em>I just obtained your KyberLock Lock from (cite source), but I still wonder if it is authentic since I am unable to view the authenticating video that you may have made for it. Therefore, I ask you to help me authenticate it through the interlock protocol. Here's what I want you to do:</em></p>
+          <ol>
+            <li><em>Write a message asking me to take a picture or video of myself doing something of your choice. Encrypt the message with my Lock, which is appended to this message, and copy it to a safe place. Then split it in two and send me the first half only.</em></li>
+            <li><em>When I receive your first half, I will also write a message asking you to do something in a picture or short video. I'll encrypt that message with your Lock, and I'll send you half of the encrypted message first. When you get it, go ahead and send me the other half of your encrypted message.</em></li>
+            <li><em>When I get your second half, I'll put the two halves together and decrypt your message. Then, following your instructions I'll send you the picture or video right away, decrypted, along with the second half of my encrypted request.</em></li>
+            <li><em>When you get it, please verify that what I sent conforms to your instructions. If so, put together the two halves of my encrypted message to you, decrypt it, and send me what I ask in the message as soon as possible, decrypted as well. Then I'll know that your Lock is authentic.</em></li>
+          </ol>
+          <p><em>Many thanks. Sincerely, This-and-That</em></p>
+          <div class="helpHeading2">
+            <p><em>Click here for More:</em></p>
+          </div>
+          <div class="helpText">
+            <p>Alternatively, you can ask the other person to use KyberLock's built-in <strong>Split/Join</strong> function, explained in another help item, rather than simply cutting messages in two. The pictures or videos (or recordings) don't need to be encrypted. Only the instructions for making them need to be encrypted and transmitted with this two-step process. There is an article in the <a href="http://PassLok.weebly.com/uploads/2/4/1/8/24187628/PassLok_manual21.pdf" target="_blank">PassLok manual</a> that explains how this protocol works for authenticating Locks.</p>
+          </div>
+        </div>
+        <hr>
+      </div>
+    
+      <div class="helpHeading">
+        <h3>Check the authenticity of the code</h3>
+      </div>
+      <div class="helpText">
+        <p>If you got KyberLock from an app store, that app store is ensuring that the code you have is what the author gave to them. The following is to check the integrity of the web app version of KyberLock running in a browser:</p>
+        <p>1. Direct your browser to "save page as" and "HTML only" if your browser supports it. Alternatively, you can go to Online-convert (https://hash.online-convert.com/sha256-generator) and type the URL of your version of KyberLock there, then skip step 2.</p>
+        <p>2. Now you have to take the SHA256 checksum of the code using a program different from KyberLock. You have several options:</p>
+        <ul>
+          <li>Use a local program or online utility to take the checksum of the source saved to a file.</li>
+          <li>Use an online utility where you paste the text on a box and click a button. You must make sure that pasting does not add extra space at the top or the bottom of the file, which would affect the result. Links to good ones are below.</li>
+        </ul>
+        <p>3. Look up the checksum for this version of KyberLock, which is published on the KyberLock information website at KyberLock.com and a number of other places, plus near the end of this help file. If this value and the one obtained above are not the same, the program has been tampered with. Here are some places where this information is published:</p>
+        <ul>
+          <li>KyberLock information page: <a href="https://KyberLock.com/get-KyberLock.html" target="_blank">https://KyberLock.com/get-KyberLock.html</a></li>
+          <li>PR Gomez.com (author's blog): <a href="https://prgomez.com/current-version-of-KyberLock" target="_blank">https://prgomez.com/current-version-of-KyberLock/</a></li>
+        </ul>
+        <p>4. Now, a hacker who could alter the source code at the server might also be able to change the published checksums so they match the tampered code. To make sure that the value is authentic you should watch the one-minute video where the author or KyberLock, Francisco Ruiz, reads the SHA256 checksum aloud. A link to the video usually accompanies the published SHA256 value.</p>
+        <p>This and more is explained in this video tutorial for the very similar PassLok app (warning: watching it may leak your IP number): <a href="https://www.youtube.com/watch?v=NrAfSo2xjnY" target="_blank">https://www.youtube.com/watch?v=NrAfSo2xjnY</a></p>
+        <div class="helpHeading2">
+          <p><em>Click here for More:</em></p>
+        </div>
+        <div class="helpText">
+          <p>Typically, you load the source on a separate tab by typing CTRL-U (Windows) or option-cmd-u (OSX). Another way to save the source is to copy it by first selecting the the whole source code (CTRL-A or cmd-a), then copy to clipboard (CTRL-C or cmd-c), and then paste it into a text editor (CTRL-V or cmd-v), and save it from there. DO NOT save the code using the "save" command when the working KyberLock page is displayed, since then the browser would modify the source code before saving it. The correct encoding is UTF-8, no BOM (notes: Windows Notepad is unable to save text in the correct format. Cut and paste from Chrome introduces artifacts for big items like the source code).</p>
+          <p>SHA256 is built into the OS in Linux and OSX, not so in Windows, but there are free programs available, such as Checksum Utility and Bitser. There are also online utilities where you can upload a file and get the hash. Online-convert (https://hash.online-convert.com/sha256-generator), fileformat.info (https://fileformat.info/tool/hash.htm) have worked well in our tests.</p>
+          <p>If you want a clipboard-based SHA256 utility, the one at Xorbin (https://www.xorbin.com/tools/sha256-hash-calculator) has worked quite well in our tests. Don't copy and paste from Chrome, since this introduces artifacts.</p>
+        </div>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>I have an item that was encrypted/sealed with a previous version of KyberLock, and the current version cannot handle it</h3>
+      </div>
+      <div class="helpText">
+        <p>We do not recommend using old versions for new work. Newer versions have enhanced security and are more user-friendly. But sometimes you may need to handle an item that is incompatible with the current version. Here is a pretty complete list of old KyberLock versions, with links to them.</p>
+        <p><strong>The current version</strong> of KyberLock can be obtained from the following servers (as always, be aware that following any link may reveal your location):</p>
+        <p>source server: <a href="https://KyberLock.com/app" target="_blank">https://KyberLock.com/app</a></p>
+        <p>information page: <a href="http://KyberLock.com/get-KyberLock.html" target="_blank">http://KyberLock.com</a></p>
+        <p>GitHub page: <a href="https://github.com/fruiz500/KyberLock" target="_blank">https://github.com/fruiz500/KyberLock</a></p>
+        <p>mirrors:</p>
+        <p><a href="https://www.autistici.org/KyberLock" target="_blank">https://www.autistici.org/KyberLock</a> (non-US, self-certified)</p>
+        <p><a href="https://fruiz500.github.io/KyberLock" target="_blank">https://fruiz500.github.io/KyberLock</a></p>
+        <p>SHA256 for this version and video of the author reading it at:</p>
+        <p><a href="http://KyberLock.com/get-KyberLock.html" target="_blank">http://KyberLock.com/get-KyberLock.html</a></p>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>None of the help items answers my question / I want to give feedback</h3>
+      </div>
+      <div class="helpText">
+        <p>Then you can send us an email at <a href="mailto:fruiz500@gmail.com?subject=KyberLock support request" target="_blank">fruiz500@gmail.com</a> (the link will open your email client). We'll do our best to reply in a timely fashion. If you are a GitHub user, you can also go to <a href="https://github.com/fruiz500/KyberLock" target="_blank">our page on GitHub</a> and post issues or submit improvements there.</p>
+        <p>Good constructive feedback is hard to get, so let us <strong>thank you</strong> right now, before we read your email.</p>
+      </div>
+      <hr>
+      <div class="helpHeading">
+        <h3>Privacy Policy and Warrant Canary</h3>
+      </div>
+      <div class="helpText">
+        <p><strong>Data we collect:</strong> Nothing. No cookies or anything of that sort. We don't even have the means to know who has downloaded the app.</p>
+        <p><strong>How we use this data:</strong> Nothingness brings us closer to Nirvana. It's quite a liberation.</p>
+        <p><strong>What data we share:</strong> Everything we have from you, that is, absolutely nothing. This way we don't need expensive servers and our bills are small, plus we cannot compromise your precious data. Here's wishing that so many other providers would do likewise.</p>
+        <p>Concerning truly private data:</p>
+        <p><strong>1. We cannot give your secret Key to anyone</strong> (not even yourself) because we don't have it. Your Key is never stored or transmitted, and by default gets deleted from memory after five minutes of not being used.</p>
+        <p><strong>2. We cannot give your private data to anyone</strong> because KyberLock does not send anything out of your device. When you download the app from its server, you get only the code, without any cookies, plugins, or anything of that sort.</p>
+        <p><strong>3. We cannot eavesdrop on your chat sessions, or enable anyone to do so.</strong> Establishing a chat session does involve contacting a signaling server and giving it your IP address and a disposable chatroom name so that others can contact you; the signaling server never sees the content of your chat, which is between participants only. The KyberLock web server doesn't even see the connection data.</p>
+        <p><strong>4. We will never weaken the cryptography methods contained within KyberLock at the request of a third party, private or public.</strong> This also means no backdoors will ever be added. We would rather discontinue KyberLock than be forced to do this, which would betray the very essence of our efforts. If we learn that counterfeit versions of KyberLock are circulating, whether placed by hackers or government agencies, we will make the fact known to users.</p>
+        <p><strong>Notice:</strong> Since KyberLock is distributed as a piece of human-readable code, we consider it an expression of free speech protected by the laws of many countries. Putting into circulation tampered versions of KyberLock, whether by individuals or public entities, violates free speech and copyright protection laws.</p>
+        <p>KyberLock contains strong cryptographic methods, which may be illegal to use in some countries. Please check the local laws before using KyberLock.</p>
+        <div id="canary"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADwAAAA8BAMAAADI0sRBAAAAGFBMVEUAAAAAAAD///91XhdgYGCcnJzMzMzUqipkv+fEAAAAAXRSTlMAQObYZgAAAYFJREFUOMt1lLGOgzAQREEUaVkHkhpEUkOVmvsDIt31IF1PdP8vnWwzHtaGKRDmsbO7eHGm9Cfyys4km/ojmEvQ/ZBS10N6Gl+I18/v6G/KtCrTOnVuscbWSwsxPYPBwEsGw1nxgEGpxoUzuI00MjuDqWdwvyD4e88nuOdbMFOge3j79V3liHAjL7np4kt4u5V2fwS8bGbbHd3hjZ0wyt1hZAzuxL3FZoffqrUSlaG4qqU2HFbMfoplj68pNqr0T4xF4SFUMyJcY+EqxVgTS4QlwkZjrAXSubFRsw4H5p5BxLlIgwfTIW6DoXafPcYkqN74zRf3uN7bf2HHChvnuMGX7WoRYD8tTN/4q2CS/YQ8tvY79GwsXjO3J6jq/Qz7Mds8ds5RSDypAmz4zSr1E/EfQ9MJHjDd5PSGu1Vt8Q3BOBrVDuNdnj0DB2RCvH0xPpnYHoLhXmluXdajU7E7ONOj+YyP5Fzx9MDHQHIkQGCv1WtcaFqSkKeUumjnVB80TP0D1fGXaRHBg/YAAAAASUVORK5CYII=">
+        <p>This paragraph and the canary logo above attest to the fact that, up until the release of KyberLock version 1.0 (October 2024) we have not received any requests under gag order for user data or modifications of the code. This paragraph will be periodically updated as this situation continues.</p>
+        </div>
+      </div>
+      <hr>
+      <address>
+      KyberLock v1.0 &#169; F. Ruiz 2024
+      </address>
+      <ul>
+        <li> engine: noblePostQuantum and similar by Paul Miller 2024</li>
+        <li> DOMPurify XSS sanitizer by cure53 2022</li>
+        <li> Shamir secret sharing by A. Stetsyuk 2013</li>
+        <li> image steganography based on F5 by Andreas Westfeld 2001</li>
+        <li> jpeg image hiding libraries js-steg by Owen Campbell-Moore et al. 2014</li>
+        <li> isaac seedable PRNG by Yves-Marie Rinquin 2012</li>
+        <li> file In/Out based on an article from the This Could Be Better blog 2012</li>
+        <li> lz-string compression by pieroxy 2014</li>
+        <li> webRTC chat by Muaz Khan 2019</li>
+        <li> Jitsi chat by jitsi.org 2020</li>
+        <li> Letters encoding based on Advanced Unicode Stego by Adrian Crenshaw 2013</li>
+        <li> testing, help items, interface ideas by the IIT KyberLock team 2014-24</li>
+      </ul>
+      <address>
+      This document may be used, modified or redistributed under GNU GPL license, version 3.0 or higher.
+      </address>
+
+<script>
+  //for the help screens
+  var helpHeaders = document.getElementsByClassName("helpHeading");		//add listeners to all the help headers
+
+  for (var i = 0; i < helpHeaders.length; i++) {
+      helpHeaders[i].addEventListener('click', openHelp);
+  }
+
+  var helpHeaders2 = document.getElementsByClassName("helpHeading2");		//2nd level help
+
+  for (var i = 0; i < helpHeaders2.length; i++) {
+      helpHeaders2[i].addEventListener('click', openHelp2);
+  }
+
+//for opening one item at a time in the Help screen, with animation
+function openHelp(){
+    var helpItems = document.getElementsByClassName('helpHeading');
+    for(var i = 0; i < helpItems.length; i++){					//hide all help texts
+        var panel = helpItems[i].nextElementSibling;
+        panel.style.maxHeight = null;
+    }
+    helpItems = document.getElementsByClassName('helpHeading2');
+    for(var i = 0; i < helpItems.length; i++){					//hide also secondary texts
+        var panel = helpItems[i].nextElementSibling;
+        panel.style.maxHeight = null;
+    }
+    var panel = this.nextElementSibling;							//except for the one clicked
+    panel.style.maxHeight = panel.scrollHeight + "px"
+}
+
+//for secondary help items
+function openHelp2(){
+    var panel = this.nextElementSibling,
+        parent = this.parentElement;
+    panel.style.maxHeight = panel.scrollHeight + "px";
+    setTimeout(function(){parent.style.maxHeight = parent.scrollHeight + "px"},301)
+}
+
+</script>
+</body>
