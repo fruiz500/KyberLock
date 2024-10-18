@@ -1,4 +1,4 @@
-# kyberlock
+# KyberLock
 Quantum-proof encryption with a simple interface
 ===============
 
@@ -38,6 +38,8 @@ The KyberLock original code is in directories js-head and js-body:
 * special functions that work only with Chrome apps and extensions: Chromestuff.js
 * window reformatting, special functions: bodyscript.js
 * initialization, button connections: initbuttons.js
+
+This repository contains both the standalone app, and the Chrome and Firefox extensions, which require a few extra files.
 
 Full documentation can be found at: <https://kyberlock.com/> 
 
