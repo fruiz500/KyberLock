@@ -25,7 +25,7 @@ function pasteLock(){
 //get name and Lock from form and merge them with the locDir object, then store
 function addLock(fromMain){
     if(!fullAccess){
-        lockMsg.textContent = 'Save not available in Guest mode\r\nPlease restart PassLok';
+        lockMsg.textContent = 'Save not available in Guest mode\r\nPlease restart KyberLock';
         return
     }
     if(learnMode.checked){
@@ -104,7 +104,7 @@ function addLock(fromMain){
 //delete a particular key in Object locDir, then store
 function removeLock(){
     if(!fullAccess){
-        lockMsg.textContent = 'Delete not available in Guest mode\r\nPlease restart PassLok';
+        lockMsg.textContent = 'Delete not available in Guest mode\r\nPlease restart KyberLock';
         return
     }
     var	name = lockBox.textContent.trim(),
@@ -140,7 +140,7 @@ function removeLock(){
 //this is to just delete the Read-once data for a particular key
 function resetPFS(){
     if(!fullAccess){
-        lockMsg.textContent = 'Reset not available in Guest mode. Please restart PassLok';
+        lockMsg.textContent = 'Reset not available in Guest mode. Please restart KyberLock';
         return
     }
 
@@ -292,9 +292,9 @@ function mergeLockDB(){
         }
         if(!fullAccess){
             if(lockScr.style.display == 'block'){
-                lockMsg.textContent = 'Merge not available in Guest mode\r\nPlease restart PassLok'
+                lockMsg.textContent = 'Merge not available in Guest mode\r\nPlease restart KyberLock'
             }else{
-                mainMsg.textContent = 'Settings update not available in Guest mode\nPlease restart PassLok'
+                mainMsg.textContent = 'Settings update not available in Guest mode\nPlease restart KyberLock'
             }
             return
         }
@@ -378,7 +378,7 @@ function realNulls(object){
 //makes encrypted backup of the whole DB, then if allowed clears locDir object, then stores
 function moveLockDB(){
     if(!fullAccess){
-        optionMsg.textContent = 'Move not allowed in Guest mode\nPlease restart PassLok';
+        optionMsg.textContent = 'Move not allowed in Guest mode\nPlease restart KyberLock';
         return
     }
     callKey = 'movedb';
@@ -547,7 +547,7 @@ function recryptDB(newKey,newUserName){
 //reads old and new Key from boxes and calls recryptDB so locDir is re-encrypted with the new Key
 function acceptnewKey(){
     if(!fullAccess){
-        optionMsg.textContent = 'Key change not allowed in Guest mode. Please restart PassLok';
+        optionMsg.textContent = 'Key change not allowed in Guest mode. Please restart KyberLock';
         return
     }
     callKey = 'changekey';

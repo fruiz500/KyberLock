@@ -1,0 +1,28 @@
+{
+ "name": "KyberLock",
+  "short_name": "KyberLock",
+  "description": "Quantum-proof crypto for everyone",
+  "version": "1.0",
+  "manifest_version": 3,
+  "icons": {
+    "16": "favicon.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "content_security_policy": {
+   "extension_pages": "default-src 'self'; img-src 'self' data:; connect-src 'self' data:; style-src 'self' 'unsafe-inline'"
+  },
+  "permissions": [
+     "storage"
+  ],
+   "background": {
+     "service_worker": "background.js"
+   },
+  "action": {
+    "default_icon": {
+          "16": "favicon.png",
+         "48": "icon-48.png"
+    },
+    "default_title": "KyberLock"
+  }
+ }

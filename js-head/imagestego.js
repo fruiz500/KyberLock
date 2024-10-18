@@ -117,13 +117,13 @@ function encodePNG(){
     var text = mainBox.textContent.trim();
     if(text.match('==')) text = text.split('==')[1].replace(/[-\s]/g,'').replace(/<(.*?)>/gi,"");			//remove end tags, spaces, newlines, and dashes from Locks
 
-    //bail out if this is not a PassLok string, etc.
+    //bail out if this is not a KyberLock string, etc.
     if(!text){
         imageMsg.textContent = 'There is nothing to hide';
         return
     }
     if(!isBase64(text.replace(/=/g,''))){
-        imageMsg.textContent = 'The text contains illegal characters for a PassLok string';
+        imageMsg.textContent = 'The text contains illegal characters for a KyberLock string';
         return
     }
     if(previewImg.src.length < 100){											//no image loaded
@@ -364,13 +364,13 @@ var encodeJPG = function(){
     var text = mainBox.textContent.trim();
     if(text.match('==')) text = text.split('==')[1].replace(/[-\s]/g,'').replace(/<(.*?)>/gi,"");
 
-    //bail out if this is not a PassLok string, etc.
+    //bail out if this is not a KyberLock string, etc.
     if(!text){
         imageMsg.textContent = 'There is nothing to hide';
         return
     }
     if(!isBase64(text.replace(/=/g,''))){
-        imageMsg.textContent = 'The text contains illegal characters for a PassLok string';
+        imageMsg.textContent = 'The text contains illegal characters for a KyberLock string';
         return
     }
     if(previewImg.src.length < 100){											//no image loaded

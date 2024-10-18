@@ -276,7 +276,7 @@ function initUser(){
                     setTimeout(function(){fillList();}, 500);
                 }
                 if(email) myEmail = email;
-                localStorage['KyberLock-' + userName] = JSON.stringify(locDir);
+                localStorage[filePrefix + userName] = JSON.stringify(locDir);
                 lockNames = Object.keys(locDir)
             });
         }else{															//if not, store the email
@@ -369,31 +369,6 @@ function acceptpwd(){
             if(!checkKey(key)) return;							//check the key and bail out if fail
             getSettings();
 
-            var hash = decodeURI(window.location.hash).slice(1);								//check for data in the URL
-            if(hash.length == 43 || hash.length == 50){										//as from a QR code
-                var hashStripped = hash
-            }else{														//as from an invitation, etc.
-                var hashStripped = hash.match('==(.*)==') || [' ',' '];
-                hashStripped = hashStripped[1];
-                hashStripped = extractLock(hashStripped)
-            }
-
-            if (hashStripped.length == 43 || hashStripped.length == 50){			//sender's Lock
-                lockBox.textContent = hashStripped;
-                addLock(true);
-
-            }else{								//process automatically the other kinds; most will need a Lock to be selected first.
-                if(hash) mainBox.textContent = hash;
-                var type = hashStripped.charAt(0);
-                if(type == 'A' || type == 'k'){						//anonymous or key-encrypted
-                    unlock(type,hashStripped,'')
-                }else if(type == 'l'){
-                    setTimeout(function(){mainMsg.textContent= "Please select the sender and click Unseal"; updateButtons();},300)
-                }else if(hash){
-                    setTimeout(function(){mainMsg.textContent= "Please select the sender and click Decrypt"; updateButtons();},300)
-                }
-            }
-
             if(ChromeSyncOn && chromeSyncMode.checked){
                 syncChromeLock('myself',JSON.stringify(locDir['myself']))
             }
@@ -416,7 +391,7 @@ function acceptpwd(){
                         locDir['myself'] = [];
                         locDir['myself'][0] = keyEncrypt(email);
                         if(!locDir['myself'][0]) return;
-                        localStorage['KyberLock-' + userName] = JSON.stringify(locDir);
+                        localStorage[filePrefix + userName] = JSON.stringify(locDir);
                         syncChromeLock('myself',JSON.stringify(locDir['myself']));
                     }
                     lockNames = Object.keys(locDir)

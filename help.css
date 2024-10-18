@@ -1,0 +1,32 @@
+html {
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    font-family: Sans-Serif;
+    font-size: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
+    overflow: auto;
+    background-color: #FFFFFF;
+    color: #000000;
+}
+.message {
+    white-space: pre-line;
+    height: 40px;
+}
+.helpHeading {
+    cursor: pointer;
+    padding: 1px;
+}
+.helpHeading:hover {
+    background-color: #eeeeee;
+}
+.helpHeading2 {
+    cursor: pointer;
+    padding: 1px;
+}
+.helpText {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
