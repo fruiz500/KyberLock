@@ -10,7 +10,7 @@ function sendMail() {
         if(!reply) return
     }
 
-  if(mainBox.textContent.match("The gibberish link below contains a message from me that has been encrypted with KyberLock")){			//invitation message
+  if(mainBox.textContent.match("The gibberish below contains a message from me that has been encrypted with KyberLock")){			//invitation message
     var link = "mailto:"+ "?subject=Invitation to KyberLock" + "&body=" + encodeURIComponent(mainBox.textContent.trim()) + "%0D%0A%0D%0AYou can get KyberLock from https://kyberlock.com/app and other sources."
   }else{
     var hashTag = encodeURIComponent(mainBox.textContent.trim().replace(/ /g,'_'));		//item ready for link
@@ -60,7 +60,7 @@ function makeInvitation(){
         mainBox.textContent = '';
 
         var prefaceMsg = document.createElement('div');
-        prefaceMsg.innerHTML = "<p>The gibberish link below contains a message from me that has been encrypted with KyberLock, a free app that you can get at <a href='https://KyberLock.com/app'>https://KyberLock.com/app</a>.</p><p>To decrypt it, first load the app. You will be asked to supply a secret Key, which will not be stored or sent anywhere. You must remember your secret Key, but you can change it later if you want. Then paste in the block of gibberish below. When asked whether to accept my new Lock, go ahead and give it my name, and click <b>OK</b>. Then click <b>Decrypt</b>.</p>";
+        prefaceMsg.innerHTML = "<p>The gibberish below contains a message from me that has been encrypted with KyberLock, a free app that you can get at <a href='https://KyberLock.com/app'>https://KyberLock.com/app</a> .</p><p>To decrypt it, first load the app. You will be asked to supply a secret Key, which will not be stored or sent anywhere. You must remember your secret Key, but you can change it later if you want. Then paste in the block of gibberish below. When asked whether to accept my new Lock, go ahead and give it my name, and click <b>OK</b>. Then click <b>Decrypt</b>.</p>";
 
         var initialTag = document.createElement('pre'),
             invBody = document.createElement('pre'),
