@@ -649,11 +649,11 @@ function decoyEncrypt(length){
             if(!isMobile) decoyText.focus();
             return false
         }
-        var keyStr = decoyInBox.value,
+        var decoyKeyStr = decoyInBox.value,
             text = encodeURI(decoyText.value.replace(/%20/g,' ')),
             nonce = crypto.getRandomValues(new Uint8Array(24));
 
-            var sharedKey = wiseHash(keyStr,encodeBase64(nonce),32);					//symmetric encryption for true shared key
+            var sharedKey = wiseHash(decoyKeyStr,encodeBase64(nonce),32);					//symmetric encryption for true shared key
 
         while(text.length < length) text = text + ' ';											//add spaces to make the number of characters required
         if(text.length > length) text = text.slice(0,length);									//truncate if needed
@@ -680,13 +680,13 @@ function decoyDecrypt(cipher){
         if(!isMobile) decoyOutBox.focus();
         return false
     }
-    var keyStr = decoyOutBox.value;
+    var decoyKeyStr = decoyOutBox.value;
     decoyOutBox.value = "";
 
     var nonce = cipher.slice(0,24),
         cipherMsg = cipher.slice(24);
 
-    var sharedKey = wiseHash(keyStr,encodeBase64(nonce),32);
+    var sharedKey = wiseHash(decoyKeyStr,encodeBase64(nonce),32);
 
     var plain = KLdecrypt(cipherMsg,nonce,sharedKey,false,'decoy');     //it has its own error catching
 

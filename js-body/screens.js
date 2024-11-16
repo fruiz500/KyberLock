@@ -1,5 +1,6 @@
 ﻿//start blinking message, for Msg elements
 function blinkMsg(element){
+    element.style.color = '';
     element.textContent = '';
     var blinker = document.createElement('span');
     blinker.className = "blink";
@@ -303,7 +304,8 @@ function code2checkbox(){
         for(i = 0; i < checks.length; i++){
             checks[i].checked = (binCode[i] == '1')
         }
-        BasicButtons = checks[3].checked
+        BasicButtons = !checks[5].checked;
+        if(BasicButtons){checks[4].checked = true; checks[6].checked = false}
     }
     if(!BasicButtons){									//retrieve Advanced interface
         openClose("basicBtnsTop");
@@ -481,7 +483,6 @@ function newKey2up(evt){
 }
 
 //activated when the user clicks OK on a decoy screen
-//function submitDecoy(){
 function acceptdecoyIn(){
     closeBox();
     if(callKey == 'sign'){
@@ -531,6 +532,12 @@ function main2extra(){
 
 //switch to Advanced mode
 function mode2adv(){
+    toolBar1.style.display = 'none';
+    toolBar2.style.display = 'none';
+    mainBox.style.display = 'block';
+    fileLbl.style.display = 'none';
+    dropBtns.style.display = 'none';
+    mainbuttonsbot.style.display = 'block';
     mainBtnsTop.style.display = 'block';
     basicBtnsTop.style.display = 'none';
     emailBtnsTop.style.display = 'none';
@@ -539,7 +546,7 @@ function mode2adv(){
     advancedBtns.style.display = 'block';
     basicMode.checked = false;
     advancedMode.checked = true;
-    anonMode.style.display = '';
+    dropMode.checked = false;
     anonMode.checked = true;
     signedMode.checked = false;
     onceMode.checked = false;
@@ -549,6 +556,12 @@ function mode2adv(){
 
 //switch to Basic mode
 function mode2basic(){
+    toolBar1.style.display = 'none';
+    toolBar2.style.display = 'none';
+    mainBox.style.display = 'block';
+    fileLbl.style.display = 'none';
+    dropBtns.style.display = 'none';
+    mainbuttonsbot.style.display = 'block';
     mainBtnsTop.style.display = 'none';
     extraButtonsTop.style.display = 'none';
     basicBtnsTop.style.display = 'block';
@@ -558,9 +571,7 @@ function mode2basic(){
     advancedBtns.style.display = 'none';
     basicMode.checked = true;
     advancedMode.checked = false;
-    resetAdvModes();
-    decoyMode.checked = false;
-    anonMode.style.display = '';
+    dropMode.checked = false;
     anonMode.checked = true;
     signedMode.checked = false;
     onceMode.checked = false;
@@ -568,12 +579,26 @@ function mode2basic(){
     checkboxStore()
 }
 
-//sets modes selectable in Advanced mode to default values
-function resetAdvModes(){
-    letterMode.checked = true;
-    wordMode.checked = false;
-    spaceMode.checked = false;
-    sentenceMode.checked = false
+//switch to drop mode
+function mode2drop(){
+    toolBar1.style.display = 'none';
+    toolBar2.style.display = 'none';
+    mainBox.style.display = 'none';
+    fileLbl.style.display = 'block';
+    dropBtns.style.display = 'block';
+    mainbuttonsbot.style.display = 'none';
+    mainBtnsTop.style.display = 'none';
+    extraButtonsTop.style.display = 'none';
+    basicBtnsTop.style.display = 'none';
+    emailBtnsTop.style.display = 'none';
+    lockBtnsBottom.style.display = 'none';
+    hideModes.style.display = 'none';
+    advancedBtns.style.display = 'none';
+    basicMode.checked = false;
+    advancedMode.checked = false;
+    dropMode.checked = true;
+    BasicButtons = true;
+    checkboxStore()
 }
 
 //opens local directory for input if something seems to be missing
@@ -713,6 +738,30 @@ function openClose(theID) {
     }
 }
 
+//for opening one item at a time in the Help screen, with animation
+function openHelp(){
+    var helpItems = document.getElementsByClassName('helpHeading');
+    for(var i = 0; i < helpItems.length; i++){					//hide all help texts
+        var panel = helpItems[i].nextElementSibling;
+        panel.style.maxHeight = null;
+    }
+    helpItems = document.getElementsByClassName('helpHeading2');
+    for(var i = 0; i < helpItems.length; i++){					//hide also secondary texts
+        var panel = helpItems[i].nextElementSibling;
+        panel.style.maxHeight = null;
+    }
+    var panel = this.nextElementSibling;							//except for the one clicked
+    panel.style.maxHeight = panel.scrollHeight + "px"
+}
+
+//for secondary help items
+function openHelp2(){
+    var panel = this.nextElementSibling,
+        parent = this.parentElement;
+    panel.style.maxHeight = panel.scrollHeight + "px";
+    setTimeout(function(){parent.style.maxHeight = parent.scrollHeight + "px"},301)
+}
+
 //variables and functions for making tabs, by Matt Doyle 2009
 var tabLinks = new Array(),
     contentDivs = new Array();
@@ -721,7 +770,7 @@ function initTabs(){
 
       // Grab the tab links and content divs from the page
       var tabListItems = document.getElementById('tabs').childNodes;
-      for( var i = 0; i < tabListItems.length - 2 ; i++){            //exclude Help item, which launches a window
+      for( var i = 0; i < tabListItems.length; i++){
         if(tabListItems[i].nodeName == "LI"){
           var tabLink = getFirstChildWithTagName( tabListItems[i], 'A' );
           var id = getHash( tabLink.getAttribute('href'));

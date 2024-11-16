@@ -2,7 +2,7 @@
  "name": "KyberLock",
   "short_name": "KyberLock",
   "description": "Quantum-proof crypto for everyone",
-  "version": "1.0",
+  "version": "1.0.1",
   "manifest_version": 3,
   "icons": {
     "16": "favicon.png",

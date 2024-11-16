@@ -97,7 +97,7 @@ window.onload = function() {
 
     addLockBtn.addEventListener('click', function(){addLock(false)});
 
-    removeLockBtn.addEventListener('click', removeLock);
+    renameLockBtn.addEventListener('click', renameLock);
 
     resetPFSBtn.addEventListener('click', resetPFS);
 
@@ -124,6 +124,8 @@ window.onload = function() {
     basicMode.addEventListener('click', mode2basic);
 
     advancedMode.addEventListener('click', mode2adv);
+
+    dropMode.addEventListener('click', mode2drop);
 
     anonMode.addEventListener('click', checkboxStore);
 
@@ -195,9 +197,17 @@ window.onload = function() {
 
     submitChatBtn.addEventListener('click', makeChat);
 
-    lockList.addEventListener('change', fillBox);
+    lockList.addEventListener('change', function(){
+        if(dropMode.checked){
+            updateUsers()      //for File Drop mode
+        }else{
+            fillBox()
+        }
+    });
 
     lockList.addEventListener('click', updateButtons);
+
+    makeKeyBtn.addEventListener('click',makeKeyFile);
 
     resetListBtn.addEventListener('click', resetList);
 
@@ -289,11 +299,21 @@ window.onload = function() {
     document.images[20].addEventListener("click", function() {formatDoc('redo')});
     document.images[23].addEventListener("click", saveFiles);
 
+//for the help screens
+    var helpHeaders = document.getElementsByClassName("helpHeading");		//add listeners to all the help headers
+
+    for (var i = 0; i < helpHeaders.length; i++) {
+        helpHeaders[i].addEventListener('click', openHelp);
+    }
+
+    var helpHeaders2 = document.getElementsByClassName("helpHeading2");		//2nd level help
+
+    for (var i = 0; i < helpHeaders2.length; i++) {
+        helpHeaders2[i].addEventListener('click', openHelp2);
+    }
+
 //fixes after inline styles were moved to css file
-    lockList.style.padding = '4px';
-    lockList.style.width = '30%';
     basicBtnsTop.style.display = 'block';
-    mainMsg.style.minHeight = '20px';
     extraButtonsTop.style.display = 'none';
 
     //fix for iOS Safari upon startup

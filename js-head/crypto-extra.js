@@ -4,10 +4,14 @@ function signVerify(){
     var array = getType(mainBox.innerHTML.trim()),
         lockBoxHTML = lockBox.innerHTML.replace(/\n/g,'<br>').replace(/<br>$/,"").trim();
     setTimeout(function(){													//the rest after a 20 ms delay
-        if(array[0] == 'l'){
-            verifySignature(array[1],lockBoxHTML)
-        }else{
+        if(array[1].length == 4182){                                        //it's a Lock, so sign it
             applySignature(array[1])
+        }else{                                                              //if not, verify if the signed marker is present, sign otherwise
+            if(array[0] == 'l'){
+                verifySignature(array[1],lockBoxHTML)
+            }else{
+                applySignature(array[1])
+            }
         }
     },20);						//end of timeout
 }
@@ -55,7 +59,7 @@ function applySignature(textStr){
     callKey = ''
 };
 
-//verifies the Schnorr signature of the plaintext, calls applySignature as appropriate.
+//verifies the signature of the plaintext, calls applySignature as appropriate.
 function verifySignature(textStr,LockStr){
     pwdMsg.textContent = "";
     if (textStr == ""){														//nothing in text box
@@ -114,6 +118,8 @@ function verifySignature(textStr,LockStr){
             mainBox.innerHTML = decryptSanitizer(encodeUTF8(plainText))
         }else{
             mainBox.innerHTML = decryptSanitizer(LZString.decompressFromUint8Array(plainText))									//decompress and filter
+            var mainTxt = mainBox.textContent;
+            if(mainTxt.length == 4182) extractLock(mainTxt)                                             //it's a Lock, so offer to save it
         }
         setTimeout(function(){if(!decoyMode.checked) mainMsg.textContent = 'Seal ownership is VERIFIED for: ' + name},500)				//apply a delay so this appears last
     }else{
@@ -130,12 +136,12 @@ var entropyPerChar = 1.58;			//expected entropy of the key text in bits per char
 function padEncrypt(text){
     var keyText = lockBox.textContent.replace(/\n/g,' ').trim(),		//turn linefeeds into spaces for compatibility
         keyTextBin = decodeUTF8(keyText);
-        var nonce = crypto.getRandomValues(new Uint8Array(15));
-        if(text.match('="data:')){
-            var textBin = decodeUTF8(text)
-        }else{
-            var textBin = LZString.compressToUint8Array(text)
-        }
+    var nonce = crypto.getRandomValues(new Uint8Array(15));
+    if(text.match('="data:')){
+        var textBin = decodeUTF8(text)
+    }else{
+        var textBin = LZString.compressToUint8Array(text)
+    }
     var	keyLengthNeed = Math.ceil((textBin.length + 64) * 8 / entropyPerChar)
 
     if(keyLengthNeed > keyTextBin.length){

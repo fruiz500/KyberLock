@@ -201,7 +201,9 @@ function resetKeys(){
     myKemKeys = '';
     myEmail = '';
     pwdBox.value = '';
-    imageBox.value = ''
+    imageBox.value = '';
+    folderKey = '';
+    makeKeyBtn.textContent = 'New Folder Key'
 }
 
 //reads email address from the main box. This is used as a salt to make the Lock
@@ -667,7 +669,7 @@ function KLdecrypt(cipherStr,nonce,sharedKey,isCompressed,label){
     }
 }
 
-//encrypts a string or uint8 array with the secret Key, 9 byte nonce, padding so length for ASCII input is the same no matter what. The input can also be binary, and then it won't be padded
+//encrypts a string or uint8 array with the secret Key, 24 byte nonce, padding so length for ASCII input is the same no matter what. The input can also be binary, and then it won't be padded
 function keyEncrypt(plainstr){
     if(!refreshKey()) return undefined;																		//make sure the Key is still alive
     var nonce = crypto.getRandomValues(new Uint8Array(24));
@@ -681,7 +683,7 @@ function keyEncrypt(plainstr){
     return encodeBase64(concatUi8([[144],nonce,cipher])).replace(/=+$/,'')		//1st character should be k
 }
 
-//decrypts a string encrypted with the secret Key, 9 byte nonce. Returns original if not encrypted. If isArray set, return uint8 array
+//decrypts a string encrypted with the secret Key, 24 byte nonce. Returns original if not encrypted. If isArray set, return uint8 array
 function keyDecrypt(cipherStr,isArray){
     var cipher = decodeBase64(cipherStr.replace(/[^a-zA-Z0-9+\/]+/g,''));
     if(!cipher) return false;
