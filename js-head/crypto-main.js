@@ -330,7 +330,7 @@ function Decrypt_Single(type,cipherStr,lockBoxHTML){
     if(cipherStr.slice(4182,4188).match('//////')){	//if it has a prepended Lock
         cipherStr = extractLock(cipherStr);																		//get or enter sender
         lockBoxHTML = lockBox.innerHTML.replace(/\n/g,'<br>').trim();
-        if(!cipherStr.charAt(0).match(/[gASO]/)){														//check for allowed types after prepended Lock and separator
+        if(!cipherStr.charAt(0).match(/[gdhASO]/)){														//check for allowed types after prepended Lock and separator
             mainMsg.textContent = 'Unrecognized message format';
             return
         }
@@ -481,11 +481,6 @@ function Decrypt_List(type,cipherStr){
 
     var lockBoxItem = lockBox.innerHTML.replace(/\n/g,'<br>').replace(/<br>$/,"").trim().replace(/<div>/g,'<br>').replace(/<\/div>/g,'').split('<br>')[0],
         LockStr = replaceByItem(lockBoxItem);					//if it's a name, replace it with the decrypted item. Locks are stripped of their tags in any case.
-    
-    if(LockStr == '' && type.match(/[SO]/)){
-        mainMsg.textContent = 'To decrypt Signed or Read-once messages, the sender must be identified first';
-        return
-    }
 
     if(!locDir[name] && locDir[lockBoxItem]) name = lockBoxItem;	//name placed in the box
 
@@ -510,10 +505,27 @@ function Decrypt_List(type,cipherStr){
     //got the encrypted message key so now decrypt it, and finally the main message. The process for Read-once modes is more involved.
 
 //for Signed and Read-once modes, verify the signature before anything else
-    if((type.match(/[SO]/)) && LockStr.length == 4182){           //don't verify signature in shared Key case
+    if(type.match(/[SO]/)){
         var signature = cipher.slice(0, 3309);
-        var pubDsa = Lock.slice(1184);              //second part of the sender's Lock
-        var isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher.slice(3309), signature)
+        if(LockStr.length == 4182){   
+            var pubDsa = Lock.slice(1184);              //second part of the sender's Lock
+            var isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher.slice(3309), signature)
+        }else if(LockStr == ''){    //no selected sender, so try all until one works
+            var isValid = false;
+            for(var name in locDir){
+                if(name == 'myself'){
+                    isValid = noblePostQuantum.ml_dsa65.verify(myDsaKeys.publicKey, cipher.slice(3309), signature);
+                }else{
+                    var thisLockStr = locDir[name][0];
+                    if(thisLockStr.length == 4182){
+                        var pubDsa = decodeBase64(thisLockStr).slice(1184);              //second part of the sender's Lock
+                        isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher.slice(3309), signature)
+                    }
+                }
+                if(isValid){LockStr = thisLockStr; break}
+            }
+            if(!isValid) name = 'anyone in your directory';
+        }
         if(!isValid){
             mainMsg.textContent = 'This message was not encrypted by ' + name;
             return false
@@ -616,7 +628,7 @@ function Decrypt_List(type,cipherStr){
                 if(type == 'A'){
                     mainMsg.textContent = 'Anonymous decryption successful'
                 }else if(type == 'S'){
-                    if(LockStr.length == 4182){
+                    if(LockStr.length == 4182 || name == 'myself'){
                         mainMsg.textContent = 'Successful decryption of message encrypted by ' + name
                     }else{
                         mainMsg.textContent = 'Successful decryption of message encrypted with shared Key'

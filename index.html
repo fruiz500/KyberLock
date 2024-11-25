@@ -274,10 +274,12 @@
       <input type="checkbox" id="decoyMode" title="second message added or retrieved" accesskey=""/>
       &nbsp; Hidden message<br><br>
       &nbsp;&nbsp;
+      <span id="otherRow2">
       <input type="checkbox" id="fileMode" title="output is turned into files" accesskey=""/>
       &nbsp; File output&nbsp;&nbsp;
       <input type="checkbox" id="includeMode" title="include my Lock" accesskey=""/>
       &nbsp; Include my Lock
+    </span>
       <div id="syncCheck"> <br>&nbsp;&nbsp;
         <input type="checkbox" id="chromeSyncMode" title="sync through Chrome" checked/>
         &nbsp;Chrome sync </div>
@@ -371,9 +373,11 @@
   <div class="helpText">
     <p>If you check the <strong>Learn</strong> box in the <strong>Options</strong> tab, a text explaining what is about to happen will pop up every time a button is clicked.</p>
     <p>And here are a few more resources you may want to check out, made for the very similar PassLok app:</p>
-    <p>The Learn PassLok website at <a href="https://passlok.com/learn" target="_blank">https://PassLok.com/learn</a> contains a working copy of PassLok and a number of lessons on the different things you can do with it.</p>
-    <p>The PassLok information website at <a href="https://passlok.weebly.com" target="_blank">http://PassLok.weebly.com</a> contains a number of videos and PDF documents.</p>
-    <p>The PassLok <a href="https://PassLok.weebly.com/uploads/2/4/1/8/24187628/PassLok_manual.pdf" target="_blank">manual in PDF format.</a></p>
+    <ul>
+      <li>The Learn PassLok website at <a href="https://passlok.com/learn" target="_blank">https://PassLok.com/learn</a> contains a working copy of PassLok and a number of lessons on the different things you can do with it.</li>
+      <li>The PassLok information website at <a href="https://passlok.weebly.com" target="_blank">http://PassLok.weebly.com</a> contains a number of videos and PDF documents.</li>
+      <li>The PassLok <a href="https://PassLok.weebly.com/uploads/2/4/1/8/24187628/PassLok_manual.pdf" target="_blank">manual in PDF format.</a></li>
+    </ul>
     <p>If you want to learn what's under the hood, read the <a href="http://www.weebly.com/uploads/2/4/1/8/24187628/passlok_technical_document.pdf" target="_blank">PassLok technical document.</a></p>
   </div>
   <hr>
@@ -487,8 +491,9 @@
       <p><em>Click here for More:</em></p>
     </div>
     <div class="helpText">
-      <p>Authenticating Locks is very important for security. Otherwise an interloper will be able to impersonate the authentic sender. If you did not have the authentic Lock's fingerprint when you entered it, you can display it later by typing the Lock's given name in the directory Edit box. If the fingerprint does not match what you've got, you can delete the Lock by clicking <strong>Delete</strong> at this point.</p>
+      <p>Authenticating Locks is very important for security. Otherwise an interloper will be able to impersonate the authentic sender. If you did not have the authentic Lock's fingerprint when you entered it, you can display it later by typing the Lock's given name in the directory Edit box. If the fingerprint does not match what you've got, you can delete the Lock by clicking <strong>Rename</strong> at this point and letting the name displayed in the popup remain as "Delete" before clicking OK.</p>
       <p>If the given name is already in the directory, the Lock or shared Key will be replaced rather than added. You can store a cover text or a List besides an individual's Lock or shared Key. In the case of a List, the given name will be displayed bracketed by double dashes. Items that are not Locks are stored encrypted.</p>
+      <p>You can also rename an item that is already saved by clicking the <strong>Rename</strong> button and suplying a new name. If the first character of the name is a dollar sign $ , the name will not be displayed on the directory list in the <strong>Main</strong> tab, but its associated Lock will still be available to check the signature used in items encrypted in Signed or Read-once mode.</p>
       <p>(<em>Chrome/Firefox app only</em>) If <strong>Chrome sync</strong> is checked in Options, the item will also be added to the Chrome sync area, so it is available on a different computer after you log into Chrome or Firefox.</p>
     </div>
   </div>
@@ -560,7 +565,7 @@
     <h3>Decrypt a Signed message</h3>
   </div>
   <div class="helpText">
-    <p>1. If the sender's Lock has been previously stored in the local directory, simply select its name in the top box of the <strong>Main</strong> tab.</p>
+    <p>1. If the sender's Lock has been previously stored in the local directory, it will be found automatically, but you can force KyberLock to check for a particular sender by selecting his/her name in the top box of the <strong>Main</strong> tab.</p>
     <ul>
       <li>If not, click the <strong>Edit</strong> button next to the directory box and paste the sender's Lock in the dialog that appears. Then click <strong>Done</strong>.</li>
     </ul>
@@ -708,7 +713,7 @@
   </div>
   <hr>
   <div class="helpHeading">
-    <h3>How to use File Drop mode</h3>
+    <h3>File Drop mode</h3>
   </div>
   <div class="helpText">
     <p>This mode, which should not be confused with the feature described in the previoous help item, allows users to encrypt and decrypt single files, possibly of very large size, by drag and drop. You start by selecting the <strong>File Drop</strong> radio button near the top of the <strong>Options</strong> tab. The main box is replaced by a large drop target with a folder icon, and then:</p>
@@ -727,6 +732,7 @@
   </div>
   <div class="helpText">
     <p>The format of files encrypted in this mode is not compatible with the .kyb files described in the previous help item, but they are compatible with the GroupKyber app, and those made by that app are compatible with KyberLock under File Drop mode.</p>
+    <p>You can add a hidden message up to 160 characters long by selecting <strong>Hidden message</strong> in Options. You will be asked to supply a special Key to encrypt the hidden message. After entering the Key, please drop the file again to complete the process. This is available for any file, including Folder Keys.</p>
   </div>
   </div>
   <hr>
@@ -1508,7 +1514,7 @@
   <div id="intro4" class="left">
     <button class="cssbutton" id="backtointro3" value="back" title="back to step 2">&#9668; Back</button>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Step 3 of 4<br>
-    <p>You will get better security if you also provide some public piece of data about yourself, such as your email address. This is case sensitive. There's no risk of spam since nothing will be sent out. You can skip this if you want.</p>
+    <p>You will get better security if you also provide some public piece of data about yourself, such as your email address or a group name. This is case sensitive. There's no risk of spam since nothing will be sent out. You can skip this if you want.</p>
     
     <div class="centered">
       <input type="text" class="cssbox centered" id="emailIntro" name="text" placeholder="Optionally, enter your email or some other not secret personal info here">

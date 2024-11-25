@@ -9,11 +9,17 @@ fileImg.src = folderImg;
 
 var folderKey;
 var locks = [], users = [];						//locks contains public keys for all users in uint8 format, users contains the matching names
-var locksSelected = [];							//only for selected users; excludes legacy users
+var locksSelected = [],							//only for selected users; excludes legacy users
+	usersSelected = [];
 
 
 //loads multiple files and processes them for encryption or decryption; adapted from https://ourcodeworld.com/articles/read/1438/how-to-read-multiple-files-at-once-using-the-filereader-class-in-javascript
 function loadFiles(){
+	if(learnMode.checked){
+		var reply = confirm("The files you just dropped will be encrypted or decripted, and the result sent to the Downloads folder. Cancel if this is not what you want");
+		if(!reply) return
+	}
+
 	let files = fileIn.files;
     let readers = [];
 	let fileNames = [];
@@ -62,9 +68,7 @@ function loadFiles(){
 				dropEncrypt(fileInBin,fileOutName)									//mode determined within encrypt function
 			}
 		}
-    });
-	fileIn.type = '';
-	fileIn.type = 'file';								//resets file input
+    })
 }
 
 //makes a promise to read the binary data of a file
@@ -84,31 +88,12 @@ function readFileAsArrayBuffer(file){
 	});
 }
 
-//checks that a certain binary array is present as a Lock in locDir, up to a certain length
-function lockName(lock,legth2check){
-    for (var name in locDir){
-		var isThisLock = true;
-        if(name != 'myself'){
-            if(locDir[name][0].length == 4182){
-                var userLock = decodeBase64(locDir[name][0])
-            }else{
-                isThisLock = false
-            }
-        }
-		for(var j = 0; j < legth2check; j++){
-            if(name == 'myself'){
-                isThisLock = isThisLock && (myLock[j] == lock[j])
-            }else if(isThisLock){
-			    isThisLock = isThisLock && (userLock[j] == lock[j])			//check first few elements; return false if even one does not match
-            }
-		}
-		if(isThisLock) return name											//return index in array if found
-	}
-	return -1														  //lock not found
-}
-
 //makes a key file, by encrypting an empty array in Signed mode
 function makeKeyFile(){
+	if(learnMode.checked){
+		var reply = confirm("A new Folder Key file will be created for the currently selected users, or if one is loaded it will be updated for these users without affecting the other files. Cancel if this is not what you want");
+		if(!reply) return
+	}
 	if(locksSelected.length == 0){
 		mainMsg.textContent = 'Please select some users, and click the button again.';
 		return
@@ -121,6 +106,9 @@ function makeKeyFile(){
 function dropEncrypt(fileInBin, fileOutName){
 	if(!refreshKey()) return;			//check that the Key is active and stop if not
 
+	var padding = decoyEncrypt(160);				                //results in 200 bytes
+	if(!padding) return;
+
 	startBlink(true);
 
 	setTimeout(function(){										//delay to allow blinker to start
@@ -130,8 +118,10 @@ function dropEncrypt(fileInBin, fileOutName){
 		if(folderMode.checked && !isKeyFile){						//folder mode: symmetric encryption using folderKey as key
 			
 			if(!folderKey){
-				mainMsg.style.color = 'red';
-				mainMsg.textContent = 'To encrypt files in Folder mode, you must load an encrypted Folder Key first'
+				if(!decoyMode.checked){
+					mainMsg.style.color = 'red';
+					mainMsg.textContent = 'To encrypt files in Folder mode, you must load an encrypted Folder Key first'
+				}
 				return
 			}
 
@@ -141,7 +131,7 @@ function dropEncrypt(fileInBin, fileOutName){
 			var msgKeyCipher = nobleCiphers.xchacha20poly1305(folderKey,nonce).encrypt(msgKey),	//message key encrypted with folder key
 				cipher = nobleCiphers.xchacha20poly1305(msgKey,nonce).encrypt(fileInBin);
 
-			var fileOutBin = concatUi8([headTag,[0],nonce,msgKeyCipher,cipher]);		//start with header, a zero byte, and the nonce, next is msgKey encrypted with the folder Key, and the encrypted file data
+			var fileOutBin = concatUi8([headTag,[0],nonce,padding,msgKeyCipher,cipher]);		//start with header, a zero byte, and the nonce, next is msgKey encrypted with the folder Key, and the encrypted file data
 
 		}else{														//single file mode: asymmetric encryption
 
@@ -153,7 +143,7 @@ function dropEncrypt(fileInBin, fileOutName){
 			var	msgKey = crypto.getRandomValues(new Uint8Array(32)),					//message key for symmetric encryption
 				nonce = crypto.getRandomValues(new Uint8Array(24));						//nonce so each encryption is unique; 24 bytes
 
-			fileOutBin = concatUi8([headTag,recipients,nonce,myLock.slice(0,8)]);	//global output starts with header v1, No. of recipients, 24-byte nonce, first 8 bytes of sender's public Key			
+			fileOutBin = concatUi8([headTag,recipients,nonce,padding]);	//global output starts with header v1, No. of recipients, 24-byte nonce, first 200 bytes of padding, which may contain a secret		
 			
 			if(isKeyFile){
 				var cipher = new Uint8Array(0);										//empty payload for a Folder Key file
@@ -189,7 +179,7 @@ function dropEncrypt(fileInBin, fileOutName){
 			saveFileOut(fileOutBin,'_FolderKey.krypt')	
 		}else{		
 			mainMsg.textContent = 'Encryption successful. File saved to Downloads';
-			saveFileOut(fileOutBin,fileOutName)	
+			saveFileOut(fileOutBin,fileOutName)
 		}
 	},20)
 }
@@ -212,25 +202,37 @@ function dropDecrypt(fileInBin, fileOutName){
 			}
 
 			var nonce = fileInBin.slice(headTag.length+1,headTag.length+25),			//24 bytes; there is a 0 byte right before it
-				msgKeyCipher = fileInBin.slice(headTag.length+25,headTag.length+73),	//encrypted key, 48 bytes
-				cipher = fileInBin.slice(headTag.length+73);							//rest of it; encrypted file
+				padding = fileInBin.slice(headTag.length+25,headTag.length+225),
+				msgKeyCipher = fileInBin.slice(headTag.length+225,headTag.length+273),	//encrypted key, 48 bytes
+				cipher = fileInBin.slice(headTag.length+273);							//rest of it; encrypted file
+
+			if(decoyMode.checked){											//decoy decryption of the padding
+				var answer = decoyDecrypt(padding);
+				if(!answer) return
+			}
 
 			try{
 				var msgKey = nobleCiphers.xchacha20poly1305(folderKey,nonce).decrypt(msgKeyCipher)			//decrypt the message key
 			}catch{
-				mainMsg.style.color = 'red';
-				mainMsg.textContent = 'Decryption has failed';
+				if(!decoyMode.checked){
+					mainMsg.style.color = 'red';
+					mainMsg.textContent = 'Decryption has failed'
+				}
 				return
 			}
 			
 			try{
 				var fileOutBin = nobleCiphers.xchacha20poly1305(msgKey,nonce).decrypt(cipher);			//main file decryption
-				mainMsg.style.color = 'green';								//success!
-				mainMsg.textContent = 'Decryption successful. File saved to Downloads';
+				if(!decoyMode.checked){
+					mainMsg.style.color = 'green';								//success!
+					mainMsg.textContent = 'Decryption successful. File saved to Downloads'
+				}
 				saveFileOut(fileOutBin,fileOutName)							//download automatically
 			}catch{
-				mainMsg.style.color = 'red';
-				mainMsg.textContent = 'Decryption has failed';
+				if(!decoyMode.checked){
+					mainMsg.style.color = 'red';
+					mainMsg.textContent = 'Decryption has failed'
+				}
 				return
 			}
 
@@ -239,15 +241,12 @@ function dropDecrypt(fileInBin, fileOutName){
 				cipherArray = new Array(recipients);
 
 			var nonce = fileInBin.slice(headTag.length+1,headTag.length+25),		//24 bytes
-				lockID = fileInBin.slice(headTag.length+25,headTag.length+33),		//first 8 bytes of sender's public key
-				cipherInput = fileInBin.slice(headTag.length+33);					//rest of it; contains encrypted message keys, signature, and encrypted file
+				padding = fileInBin.slice(headTag.length+25,headTag.length+225),	//200 bytes
+				cipherInput = fileInBin.slice(headTag.length+225);					//rest of it; contains encrypted message keys, signature, and encrypted file
 
-			var senderName = lockName(lockID,8);									//find whose public key was used to encrypt
-
-			if(senderName == -1){														//not found
-				mainMsg.style.color = 'red';
-				mainMsg.textContent = 'File encrypted by unknown or unselected user';
-				return
+			if(decoyMode.checked){												//decoy decryption of the padding
+				var answer = decoyDecrypt(padding);
+				if(!answer) return
 			}
 
 			//cut the rest into pieces; first the encrypted keys, then the signature and encrypted file	
@@ -259,14 +258,32 @@ function dropDecrypt(fileInBin, fileOutName){
 			//verify the signature of the ciphertext
 			var signature = cipher.slice(0, 3309);
 			cipher = cipher.slice(3309);
-            if(senderName != 'myself'){
-                var pubDsa = decodeBase64(locDir[senderName][0]).slice(1184)              //second part of the sender's Lock
-            }else{
-                var pubDsa = myLock.slice(1184);
-            }
-			var isValid = noblePostQuantum.ml_dsa65.verify(pubDsa,cipher,signature);
+
+			var isValid = false;
+			if(locksSelected.length != 0){						//senders selected in directory, try those first
+				for(var i = 0; i < locksSelected.length; i++){
+					var pubDsa = locksSelected[i].slice(1184);              //second part of the sender's Lock
+					var isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher, signature);
+					if(isValid){var name  = usersSelected[i]; break}
+				}
+			}else{												//search whole directory if no selection
+				for(var name in locDir){						//include also legacy users
+					if(name == 'myself'){
+						isValid = noblePostQuantum.ml_dsa65.verify(myDsaKeys.publicKey, cipher, signature);
+					}else{
+						var thisLockStr = locDir[name][0];
+						if(thisLockStr.length == 4182){
+							var pubDsa = decodeBase64(thisLockStr).slice(1184);              //second part of the sender's Lock
+							isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher, signature)
+						}
+					}
+					if(isValid) break
+				}
+			}
 			if(!isValid){
-				mainMsg.textContent = 'Invalid file signature';
+				if(!decoyMode.checked){
+					mainMsg.textContent = 'This message was not encrypted by anyone in your directory'
+				}
 				return false
 			}
 
@@ -287,30 +304,38 @@ function dropDecrypt(fileInBin, fileOutName){
 				}
 			}
 
-			if(!success){														//ID tag not found; display error and bail out
+			if(!success && !decoyMode.checked){						//display error and bail out
 				mainMsg.style.color = 'red';
 				mainMsg.textContent = 'Decryption has failed';
 				return
 			}
 
+			var sender = name.replace(/\$/,'former user ');				//for display
+
 			if(cipher.length == 0){												//encrypted folder Key
 				folderKey = msgKey;
-				mainMsg.style.color = 'green';
-				mainMsg.textContent = 'Folder Key loaded. You are now set to encrypt and decrypt files from this folder. Last updated by ' + senderName;
 				folderMode.checked = true;
 				makeKeyBtn.textContent = 'Update Folder Key';
 				fileImg.src = folderImg;
-				fileLbl.title = "drop files to be encrypted of decrypted"
+				fileLbl.title = "drop files to be encrypted of decrypted";
+				if(!decoyMode.checked){
+					mainMsg.style.color = 'green';
+					mainMsg.textContent = 'Folder Key loaded. You are now set to encrypt and decrypt files from this folder. Last updated by ' + sender
+				}
 
 			}else{																//asymmetric-encrypted file
 				try{
 					var fileOutBin = nobleCiphers.xchacha20poly1305(msgKey,nonce).decrypt(cipher);		//file decryption
-					mainMsg.style.color = 'green';								//success!
-					mainMsg.textContent = 'Decryption successful. File saved to Downloads. Last updated by ' + senderName;
+					if(!decoyMode.checked){
+						mainMsg.style.color = 'green';								//success!
+						mainMsg.textContent = 'Decryption successful. File saved to Downloads. Last updated by ' + sender
+					}
 					saveFileOut(fileOutBin,fileOutName)							//download automatically
 				}catch{
-					mainMsg.style.color = 'red';
-					mainMsg.textContent = 'Decryption has failed'
+					if(!decoyMode.checked){
+						mainMsg.style.color = 'red';
+						mainMsg.textContent = 'Decryption has failed'
+					}
 				}
 			}
 		}
@@ -362,7 +387,7 @@ downloadURL = function(data, fileInName) {
 //updates recipient lists from entries selected in the selection element
 function updateUsers(){
 	var list = [];				//reset selected users and locks lists
-	var usersSelected = [];
+	usersSelected = [];
 	locksSelected = [];
 
 	//make first list of selected names, some of which may be lists

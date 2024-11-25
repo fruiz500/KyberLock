@@ -485,7 +485,9 @@ function newKey2up(evt){
 //activated when the user clicks OK on a decoy screen
 function acceptdecoyIn(){
     closeBox();
-    if(callKey == 'sign'){
+    if(dropMode.checked){
+        loadFiles()
+    }else if(callKey == 'sign'){
         signVerify()
     }else{
         lockBtnAction()
@@ -542,6 +544,7 @@ function mode2adv(){
     basicBtnsTop.style.display = 'none';
     emailBtnsTop.style.display = 'none';
     lockBtnsBottom.style.display = 'block';
+    otherRow2.style.display = '';
     hideModes.style.display = 'block';
     advancedBtns.style.display = 'block';
     basicMode.checked = false;
@@ -567,6 +570,7 @@ function mode2basic(){
     basicBtnsTop.style.display = 'block';
     emailBtnsTop.style.display = 'none';
     lockBtnsBottom.style.display = 'none';
+    otherRow2.style.display = '';
     hideModes.style.display = 'none';
     advancedBtns.style.display = 'none';
     basicMode.checked = true;
@@ -592,6 +596,7 @@ function mode2drop(){
     basicBtnsTop.style.display = 'none';
     emailBtnsTop.style.display = 'none';
     lockBtnsBottom.style.display = 'none';
+    otherRow2.style.display = 'none';
     hideModes.style.display = 'none';
     advancedBtns.style.display = 'none';
     basicMode.checked = false;
@@ -603,6 +608,10 @@ function mode2drop(){
 
 //opens local directory for input if something seems to be missing
 function main2lock(){
+    if(learnMode.checked){
+		var reply = confirm("This opens a new dialog so the directory at left can be edited, to add, change, or remove Locks, Keys, etc. Cancel if this is not what you want");
+		if(!reply) return
+	}
     if(isMobile) window.scrollTo(0, 0);
     if(tabLinks['mainTab'].className == '') return;
     if(Object.keys(locDir).length == 1 || Object.keys(locDir).length == 0){				//new user, so display a fuller message

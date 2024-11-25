@@ -138,9 +138,9 @@ function renameLock(){
                     lockMsg.textContent = fullName + ' deleted'
                 }
                 lockBox.textContent = '';
-                addLockBtn.textContent = "Rand."
+                addLockBtn.textContent = "Rand.";
+                fillList()
             }, 100);
-            fillList();
 
                 if(ChromeSyncOn && chromeSyncMode.checked){		//if Chrome sync is available, change in sync storage
                     if(confirm('Item changed in local storage. Do you want to change it also in sync storage?')){
@@ -671,10 +671,12 @@ function fillList(){
         locDir = sortObject(locDir);
         for(var name in locDir){
             if(locDir[name][0]){
-                var opt = document.createElement("option");
-                opt.value = name;
-                opt.textContent = name;
-                fragment.appendChild(opt)
+                if(name.charAt(0) != '$'){                      //don't display legacy users
+                    var opt = document.createElement("option");
+                    opt.value = name;
+                    opt.textContent = name;
+                    fragment.appendChild(opt)
+                }
             }
         }
     }
@@ -748,6 +750,10 @@ function fillBox(){
 
 //empty the selection box on Main tab
 function resetList(){
+    if(learnMode.checked){
+		var reply = confirm("The currently selected items on the list at left will be deselected. Cancel if this is not what you want");
+		if(!reply) return
+	}
     for (var i = 0; i < lockList.options.length; i++) {
         if(lockList.options[i].selected) {lockBox.textContent = '';lockMsg.textContent = ''}
         lockList.options[i].selected = false
