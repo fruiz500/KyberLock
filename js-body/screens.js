@@ -535,7 +535,6 @@ function main2extra(){
 //switch to Advanced mode
 function mode2adv(){
     toolBar1.style.display = 'none';
-    toolBar2.style.display = 'none';
     mainBox.style.display = 'block';
     fileLbl.style.display = 'none';
     dropBtns.style.display = 'none';
@@ -554,13 +553,14 @@ function mode2adv(){
     signedMode.checked = false;
     onceMode.checked = false;
     BasicButtons = false;
+    niceEditor = false;
+    niceEditBtn.textContent = 'Rich';
     checkboxStore()
 }
 
 //switch to Basic mode
 function mode2basic(){
     toolBar1.style.display = 'none';
-    toolBar2.style.display = 'none';
     mainBox.style.display = 'block';
     fileLbl.style.display = 'none';
     dropBtns.style.display = 'none';
@@ -580,13 +580,14 @@ function mode2basic(){
     signedMode.checked = false;
     onceMode.checked = false;
     BasicButtons = true;
+    niceEditor = false;
+    niceEditBtn.textContent = 'Rich';
     checkboxStore()
 }
 
 //switch to drop mode
 function mode2drop(){
     toolBar1.style.display = 'none';
-    toolBar2.style.display = 'none';
     mainBox.style.display = 'none';
     fileLbl.style.display = 'block';
     dropBtns.style.display = 'block';
@@ -603,6 +604,7 @@ function mode2drop(){
     advancedMode.checked = false;
     dropMode.checked = true;
     BasicButtons = true;
+    niceEditor = false;
     checkboxStore()
 }
 
