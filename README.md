@@ -43,6 +43,13 @@ This repository contains both the standalone app, and the Chrome and Firefox ext
 
 Full documentation can be found at: <https://kyberlock.com/> 
 
+Verification
+-----------
+
+Beginning with v2.0.0, the files are verified against their SHA256 hashes as they load. The file containing the hashes is signed, and its signature is verified with the public key by the loader code ontained in index.html, which is meant to remain stable as the software is updated. Users are encouraged to check the SHA256 of index.html, which should be this:
+
+211b66df03ccf366a9b35c0a1c373b1a187157e8ed1f905c0a0d459813cf6d9d
+
 License
 -------
 
