@@ -153,22 +153,64 @@ select:focus {
   z-index: 1003;
   position: relative;
 }
+/* --- UPDATED HELP TAB STYLES --- */
+
 .helpHeading {
     cursor: pointer;
-    padding: 1px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    margin-top: 15px;
 }
+
 .helpHeading:hover {
     background-color: #eeeeee;
 }
-.helpHeading2 {
-    cursor: pointer;
-    padding: 1px;
-}
+
+/* Neutralize the old max-height trap */
 .helpText {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    max-height: none !important; /* Allow content to dictate height */
+    overflow: visible !important; /* Prevent content from being clipped */
+    transition: none !important; /* Remove the old JS-based animation */
+    padding: 0 20px 10px 20px;
 }
+
+/* 2. Style the native elements for a better look */
+details {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+summary {
+    cursor: pointer;
+    padding: 12px;
+    font-weight: bold;
+    background-color: #fcfcfc;
+    list-style: none; /* Hide default arrow */
+    outline: none;
+}
+
+/* Custom 'Enthusiast' Arrows (CSP Compliant) */
+summary::before {
+    content: "▶ ";
+    color: #00CA68; /* Matches your focus border color */
+    margin-right: 10px;
+}
+
+details[open] summary::before {
+    content: "▼ ";
+}
+
+summary::-webkit-details-marker {
+    display: none; /* Removes default arrow in Chrome/Safari */
+}
+
+details[open] {
+    padding-bottom: 15px;
+}
+
 .intLink {
     cursor: pointer;
 }
@@ -336,12 +378,16 @@ ul#tabs li a.selected {
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
+/* Ensure the Tab itself can grow */
 div.tabContent {
     border: none;
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
     background-color: #ffffff;
+    height: auto;
+    min-height: 100vh;
+    padding-bottom: 100px;
 }
 div.tabContent.hide {
     display: none;
@@ -684,4 +730,28 @@ img.intLink {
 
 #qrcodeImg {
     top: 100px;
+}
+
+/* Sticky search bar for the help tab */
+.help-search-container {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    padding: 10px 0;
+    z-index: 10;
+}
+
+#helpSearch {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.credits-section {
+    font-size: 0.8em;
+    opacity: 0.7;
+    margin-top: 20px;
 }
