@@ -13,7 +13,7 @@ function charsLeft(){
     //for decoy message box
     if(decoyIn.style.display == 'block'){
         var chars = encodeURI(decoyText.value).replace(/%20/g,' ').length,
-            limit = 160;
+            limit = 75;
         if(chars <= limit){
             decoyInMsg.textContent = chars + " characters out of " + limit + " used"
         }else{
@@ -44,7 +44,7 @@ function updateButtons(){
         type = getType(string)[0],
         isRecipient = !!lockBox.textContent.trim();
 
-    if(type && type.match(/[hkdgASO]/)){
+    if(type && type.match(/[hkdgASOU]/)){
         decryptBtn.textContent = 'Decrypt';
         decryptBtnBasic.textContent = 'Decrypt';
         decryptBtnEmail.textContent = 'Decrypt';
@@ -86,15 +86,15 @@ function getType(stringIn){
     string = string.replace(/<(.*?)>/g,'').replace(/-/g,'').replace(/\r?\n|\r/g,'').trim();		//remove HTML tags and dashes, plus carriage returns
 
     var	type = string.charAt(0),
-        hasLock = (string.slice(4182,4188) == '//////'),
-        typeGC = string.charAt(4188),								//in case it has prepended Lock
+        hasLock = (string.slice(3328,3334) == '//////'),
+        typeGC = string.charAt(3328),								//in case it has prepended Lock
         isBase64 = !string.match(/[^a-zA-Z0-9\+\/]/),
         isBase26 = !string.match(/[^A-Z ]/),						//spaces allowed, as in 5-letter codegroups
-        isNoLock = string.length != 4182;
+        isNoLock = string.length != 3328;
 
-    if(!hasLock && type.match(/[lkgdasoprASO]/) && isBase64 && !isBase26 && isNoLock && string.length > 40){				//encrypted or signed, no Lock prepended
+    if(!hasLock && type.match(/[lkgdasoprASOU]/) && isBase64 && !isBase26 && isNoLock && string.length > 40){				//encrypted or signed, no Lock prepended
         return [type, string]
-    }else if(hasLock && typeGC.match(/[gasoprASO]/) && isBase64 && !isBase26 && isNoLock && string.length > 40){				//encrypted, Lock prepended
+    }else if(hasLock && typeGC.match(/[gasoprASOU]/) && isBase64 && !isBase26 && isNoLock && string.length > 40){				//encrypted, Lock prepended
         return [typeGC, string]
     }else if(!hasLock && !isNoLock && isBase64 && !isBase26 && string.length > 40){											//special type for a Lock
         return ['c'	, string]
@@ -109,14 +109,14 @@ function getType(stringIn){
 function pasteMain() {
     setTimeout(function(){
         var string = mainBox.innerHTML.trim()
-        if((string.replace(/<(.*?)>/g,'').slice(0,13).match(/p\d{3}/) && string.replace(/<(.*?)>/g,'').slice(0,7).match('PL')) || (string.match(/PL\d{2}p\d{3}/) && string.match('.txt'))){																//parts to be joined detected
+        if((string.replace(/<(.*?)>/g,'').slice(0,13).match(/p\d{3}/) && string.replace(/<(.*?)>/g,'').slice(0,7).match('KL')) || (string.match(/KL\d{2}p\d{3}/) && string.match('.txt'))){																//parts to be joined detected
             secretshare();
             return
         }
         var array = getType(string.replace(/<(.*?)>/g,'')),
             type = array[0],
             lockBoxHTML = lockBox.innerHTML.replace(/\n/g,'<br>').replace(/\r/g,'').replace(/<br>$/,"").trim();
-        if(type && type.match(/[hkdgASO]/)){							//known encrypted type: decrypt
+        if(type && type.match(/[hkdgASOU]/)){							//known encrypted type: decrypt
             unlock(type,array[1],lockBoxHTML);
             return
         }else if(type && type == 'l'){										//unseal
@@ -174,7 +174,7 @@ function lockBtnAction(){
     var array = getType(text),
         type = array[0],
         lockBoxHTML = lockBox.innerHTML.replace(/\n/g,'<br>').replace(/\r/g,'').replace(/<br>$/,"").trim();
-    if(type && type.match(/[hkdgASO]/)){								//known encrypted type: decrypt
+    if(type && type.match(/[hkdgASOU]/)){								//known encrypted type: decrypt
         unlock(type,array[1],lockBoxHTML)
     }else if(!!lockBoxHTML){									//recipients selected: encrypt
         lock(lockBoxHTML,text)
@@ -262,8 +262,8 @@ function changeName(){
         return
     }
     recryptDB(KeyStr,userNameTemp);
-    localStorage[filePrefix + userNameTemp] = localStorage[filePrefix + userName];
-    localStorage.removeItem(filePrefix + userName);
+    localStorage[userNameTemp] = localStorage[userName];
+    localStorage.removeItem(userName);
     userName = userNameTemp;
 
     if(ChromeSyncOn && chromeSyncMode.checked){
@@ -286,7 +286,7 @@ function checkboxStore(){
         }
         if(locDir['myself']){
             locDir['myself'][1] = changeBase(binCode,'01',base64);
-            localStorage[filePrefix + userName] = JSON.stringify(locDir);
+            localStorage[userName] = JSON.stringify(locDir);
 
             if(ChromeSyncOn && chromeSyncMode.checked){
                 syncChromeLock('myself',JSON.stringify(locDir['myself']))
@@ -372,7 +372,7 @@ function cancelKey(){
         fillList();										//put names in selection box
         if(locDir['myself']){
             locDir['myself'][3] = 'guest mode';
-            localStorage[filePrefix + userName] = JSON.stringify(locDir);
+            localStorage[userName] = JSON.stringify(locDir);
 
             if(ChromeSyncOn && chromeSyncMode.checked){
                 syncChromeLock('myself',JSON.stringify(locDir['myself']))
@@ -620,7 +620,7 @@ function main2lock(){
         lockMsg.textContent = 'Please enter a Lock or shared Key in the lower box. To store it, write a name in the top box and click Save'
     }
     var string = lockBox.textContent.trim();
-    if(string.length > 500 && string.length != 4182){							//cover text detected, so replace the currently selected one
+    if(string.length > 500 && string.length != 3328){							//cover text detected, so replace the currently selected one
         newCover(string)
     }
     if(string == '') addLockBtn.textContent = "Rand.";
@@ -697,9 +697,9 @@ function email2any(){
     
     KeySeed = wiseHash(KeyStr,myEmail,64);                         //Uint8Array, length 64
     myKemKeys = noblePostQuantum.ml_kem768.keygen(KeySeed);       //object with two Uint8Array, public length 1184, secret length 2400
-    myDsaKeys = noblePostQuantum.ml_dsa65.keygen(KeySeed.slice(0,32));        //object with two Uint8Array, public length 1952, secret length 4032
+    myDsaKeys = noblePostQuantum.ml_dsa44.keygen(KeySeed.slice(0,32));        //object with two Uint8Array, public length 1952, secret length 4032
     myLock = concatUi8([myKemKeys.publicKey,myDsaKeys.publicKey]);      //signing public key concatenated with encrypting public key, length 3136
-    myLockStr = encodeBase64(myLock).replace(/=+$/,'')          //base64, length 4182
+    myLockStr = encodeBase64(myLock).replace(/=+$/,'')          //base64, length 3328
 
     if(fullAccess) storemyEmail();
     emailScr.style.display = 'none';

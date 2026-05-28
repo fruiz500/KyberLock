@@ -128,8 +128,8 @@ function dropEncrypt(fileInBin, fileOutName){
 			var	msgKey = crypto.getRandomValues(new Uint8Array(32)),					//message key for symmetric encryption
 				nonce = crypto.getRandomValues(new Uint8Array(24));						//nonce so each encryption is unique; 24 bytes
 			
-			var msgKeyCipher = nobleCiphers.xchacha20poly1305(folderKey,nonce).encrypt(msgKey),	//message key encrypted with folder key
-				cipher = nobleCiphers.xchacha20poly1305(msgKey,nonce).encrypt(fileInBin);
+			var msgKeyCipher = nobleCiphers.xsalsa20poly1305(folderKey,nonce).encrypt(msgKey),	//message key encrypted with folder key
+				cipher = nobleCiphers.xsalsa20poly1305(msgKey,nonce).encrypt(fileInBin);
 
 			var fileOutBin = concatUi8([headTag,[0],nonce,padding,msgKeyCipher,cipher]);		//start with header, a zero byte, and the nonce, next is msgKey encrypted with the folder Key, and the encrypted file data
 
@@ -149,18 +149,18 @@ function dropEncrypt(fileInBin, fileOutName){
 				var cipher = new Uint8Array(0);										//empty payload for a Folder Key file
 				if(folderKey) msgKey = folderKey									//if folder key is in memory, reuse it as message key
 			}else{
-				var cipher = nobleCiphers.xchacha20poly1305(msgKey,nonce).encrypt(fileInBin)					//main encryption event, but don't add the result yet
+				var cipher = nobleCiphers.xsalsa20poly1305(msgKey,nonce).encrypt(fileInBin)					//main encryption event, but don't add the result yet
 			}
 
 			//now make signature of the ciphertext, to be prepended to the ciphertext. Length 3309 bytes
-			var signature = noblePostQuantum.ml_dsa65.sign(myDsaKeys.secretKey, cipher);
+			var signature = noblePostQuantum.ml_dsa44.sign(cipher, myDsaKeys.secretKey);
 
 			//for each recipient, extract the public key, make a KEM secret and extra nonce, and encrypt the message key with those encrypt the message key and add it. Notice: same nonce, but different key for each item (unless someone planted two recipients who have the same key, but then the encrypted result will also be identical).
 			for (i = 0; i < locksShuffle.length; i++){
 				var pubKey = locksShuffle[i].slice(0,1184);                		//1184 bytes for ML-KEM768 public key
 				var secret = noblePostQuantum.ml_kem768.encapsulate(pubKey);    //object with sharedSecret and its cipherText, the sharedSecret is 32 bytes, cipherText is 1088 bytes
 				var nonce2 = crypto.getRandomValues(new Uint8Array(24));        //new nonce for encrypting the message key, per recipient, 24 bytes
-				var cipher2 = nobleCiphers.xchacha20poly1305(secret.sharedSecret, nonce2).encrypt(msgKey);   //48 bytes
+				var cipher2 = nobleCiphers.xsalsa20poly1305(secret.sharedSecret, nonce2).encrypt(msgKey);   //48 bytes
 
 				fileOutBin = concatUi8([fileOutBin,secret.cipherText,nonce2,cipher2]);
 			}
@@ -212,7 +212,7 @@ function dropDecrypt(fileInBin, fileOutName){
 			}
 
 			try{
-				var msgKey = nobleCiphers.xchacha20poly1305(folderKey,nonce).decrypt(msgKeyCipher)			//decrypt the message key
+				var msgKey = nobleCiphers.xsalsa20poly1305(folderKey,nonce).decrypt(msgKeyCipher)			//decrypt the message key
 			}catch{
 				if(!decoyMode.checked){
 					mainMsg.style.color = 'red';
@@ -222,7 +222,7 @@ function dropDecrypt(fileInBin, fileOutName){
 			}
 			
 			try{
-				var fileOutBin = nobleCiphers.xchacha20poly1305(msgKey,nonce).decrypt(cipher);			//main file decryption
+				var fileOutBin = nobleCiphers.xsalsa20poly1305(msgKey,nonce).decrypt(cipher);			//main file decryption
 				if(!decoyMode.checked){
 					mainMsg.style.color = 'green';								//success!
 					mainMsg.textContent = 'Decryption successful. File saved to Downloads'
@@ -263,18 +263,18 @@ function dropDecrypt(fileInBin, fileOutName){
 			if(locksSelected.length != 0){						//senders selected in directory, try those first
 				for(var i = 0; i < locksSelected.length; i++){
 					var pubDsa = locksSelected[i].slice(1184);              //second part of the sender's Lock
-					var isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher, signature);
+					var isValid = noblePostQuantum.ml_dsa44.verify(signature, cipher, pubDsa);
 					if(isValid){var name  = usersSelected[i]; break}
 				}
 			}else{												//search whole directory if no selection
 				for(var name in locDir){						//include also legacy users
 					if(name == 'myself'){
-						isValid = noblePostQuantum.ml_dsa65.verify(myDsaKeys.publicKey, cipher, signature);
+						isValid = noblePostQuantum.ml_dsa44.verify(signature, cipher, myDsaKeys.publicKey);
 					}else{
 						var thisLockStr = locDir[name][0];
-						if(thisLockStr.length == 4182){
+						if(thisLockStr.length == 3328){
 							var pubDsa = decodeBase64(thisLockStr).slice(1184);              //second part of the sender's Lock
-							isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, cipher, signature)
+							isValid = noblePostQuantum.ml_dsa44.verify(signature, cipher, pubDsa)
 						}
 					}
 					if(isValid) break
@@ -296,7 +296,7 @@ function dropDecrypt(fileInBin, fileOutName){
 	
 				try{                //this will throw an error if the key is wrong   
 					var KEMkey = noblePostQuantum.ml_kem768.decapsulate(cipherKEMkey,myKemKeys.secretKey);
-					var msgKey = nobleCiphers.xchacha20poly1305(KEMkey,nonce2).decrypt(cipherMsgKey);
+					var msgKey = nobleCiphers.xsalsa20poly1305(KEMkey,nonce2).decrypt(cipherMsgKey);
 					success = true;
 					break                           //done, so stop looking
 				}catch{
@@ -325,7 +325,7 @@ function dropDecrypt(fileInBin, fileOutName){
 
 			}else{																//asymmetric-encrypted file
 				try{
-					var fileOutBin = nobleCiphers.xchacha20poly1305(msgKey,nonce).decrypt(cipher);		//file decryption
+					var fileOutBin = nobleCiphers.xsalsa20poly1305(msgKey,nonce).decrypt(cipher);		//file decryption
 					if(!decoyMode.checked){
 						mainMsg.style.color = 'green';								//success!
 						mainMsg.textContent = 'Decryption successful. File saved to Downloads. Last updated by ' + sender
@@ -407,7 +407,7 @@ function updateUsers(){
 
 	for(var i = 0; i < usersSelected.length; i++){			//remove names that are not in database or are not Locks; length will change
 		if(!locDir[usersSelected[i]]) usersSelected.splice(i,1);
-		if(locDir[usersSelected[i]][0].length != 4182) usersSelected.splice(i,1)
+		if(locDir[usersSelected[i]][0].length != 3328) usersSelected.splice(i,1)
 	}
 	
 	usersSelected = usersSelected.sort();									//alphabetize
@@ -426,7 +426,7 @@ var tempNames = [];
 function findAllNames(name){
 	if(locDir[name]) var content = locDir[name][0];
 	if(content == null || name.charAt(0) == '$') return;							//stop also for Legacy members
-	if(isBase64(content) && content.length == 4182 && content != myLockStr) {		//add single user name, excluding myself
+	if(isBase64(content) && content.length == 3328 && content != myLockStr) {		//add single user name, excluding myself
 		tempNames.push(name);
         return 
     }

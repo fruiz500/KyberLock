@@ -35,15 +35,21 @@ if(chrome){
 //clears the no JavaScript warning and displays an initial message depending on the type of source
 function showGreeting(){
     var protocol = window.location.protocol;
+    var hostname = window.location.hostname; // Added to check for localhost
     var msgStart = "Welcome to KyberLock\r\n",
         msgEnd = "\r\nPlease enter your Key. Then click OK";
+
     if(protocol == 'file:'){
         pwdMsg.textContent = msgStart + 'running from a saved file' + msgEnd
-    }else if(protocol == 'https:'){
+    } else if(protocol == 'https:'){
         pwdMsg.textContent = msgStart + 'downloaded from a secure server' + msgEnd
-    }else if(protocol == 'chrome-extension:' || protocol == 'moz-extension:'){
+    } else if(protocol == 'chrome-extension:' || protocol == 'moz-extension:'){
         pwdMsg.textContent = msgStart + 'running as a Chrome or Firefox addon' + msgEnd
-    }else{
+    } else if(hostname == 'localhost' || hostname == '127.0.0.1'){
+        // Treat local development as safe, but distinct
+        pwdMsg.textContent = msgStart + 'running on a local development server' + msgEnd
+    } else {
+        // This is the actual "Evil Server" fallback
         mainTab.style.backgroundColor = '#ffd0ff';
         pwdMsg.textContent = msgStart + 'WARNING: running from an insecure source!' + msgEnd
     }
@@ -51,13 +57,17 @@ function showGreeting(){
 
 //resizes text boxes so they fit within the window
 function textheight(){
-    var	fullheight = document.documentElement.clientHeight,
-        offsetheight = 392,
+    // window.innerHeight correctly accounts for dynamic mobile browser UI (like address bars)
+    var fullheight = window.innerHeight || document.documentElement.clientHeight,
+        offsetheight = 480,
         toolbarheight = 50;
+        
     if(isiPhone) offsetheight = offsetheight - 65;
+    
     lockBox.style.height = (fullheight - 300) * (isMobile ? 1 : 0.8) + 'px';
+    
     if(niceEditor){
-        mainBox.style.height = fullheight - offsetheight - toolbarheight + 'px'
+        mainBox.style.height = fullheight - offsetheight - toolbarheight + 'px';
     }else{
         if(isMobile){
             if(isAndroid && !isFile){
@@ -70,7 +80,7 @@ function textheight(){
         }else{
             mainBox.style.height = fullheight - offsetheight - 10 + 'px';
         }
-        fileImg.style.height = parseInt(mainBox.style.height.slice(0,-2)) - 90 + 'px'
+        fileImg.style.height = parseInt(mainBox.style.height.slice(0,-2)) - 90 + 'px';
     }
 }
 
