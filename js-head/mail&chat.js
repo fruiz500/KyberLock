@@ -17,25 +17,25 @@ function sendMail() {
     var linkText = "Copy it and paste it into your favorite version of KyberLock:%0D%0A%0D%0A" + hashTag;
 
     if(type=="A"){
-        var link = "mailto:"+ "?subject= " + "&body=Anonymous message encrypted with KyberLock v.1.0 %0D%0A%0D%0ADecrypt with your secret Key.%0D%0A%0D%0A" + linkText
+        var link = "mailto:"+ "?subject= " + "&body=Anonymous message encrypted with KyberLock v.2.0 %0D%0A%0D%0ADecrypt with your secret Key.%0D%0A%0D%0A" + linkText
 
     }else if (type=="g" || type=="d" || type=="h"){
-        var link = "mailto:"+ "?subject= " + "&body=Message encrypted with KyberLock v.1.0 %0D%0A%0D%0ADecrypt with shared Key.%0D%0A%0D%0A" + linkText
+        var link = "mailto:"+ "?subject= " + "&body=Message encrypted with KyberLock v.2.0 %0D%0A%0D%0ADecrypt with shared Key.%0D%0A%0D%0A" + linkText
 
     }else if (type=="S"){
-        var link = "mailto:"+ "?subject= " + "&body=Signed message encrypted with KyberLock v.1.0 %0D%0A%0D%0ADecrypt with your secret Key and my Lock.%0D%0A%0D%0A" + linkText
+        var link = "mailto:"+ "?subject= " + "&body=Signed message encrypted with KyberLock v.2.0 %0D%0A%0D%0ADecrypt with your secret Key and my Lock.%0D%0A%0D%0A" + linkText
 
     }else if (type=="O"){
-        var link = "mailto:"+ "?subject= " + "&body=Read-once message encrypted with KyberLock v.1.0 %0D%0A%0D%0ADecrypt with your secret Key.%0D%0A%0D%0A" + linkText
+        var link = "mailto:"+ "?subject= " + "&body=Read-once message encrypted with KyberLock v.2.0 %0D%0A%0D%0ADecrypt with your secret Key.%0D%0A%0D%0A" + linkText
 
     }else if (type=="k"){
-        var link = "mailto:"+ "?subject=My KyberLock database" + "&body=Database encrypted with KyberLock v.1.0 %0D%0A%0D%0ADecrypt with my secret Key.%0D%0A%0D%0A" + linkText
+        var link = "mailto:"+ "?subject=My KyberLock database" + "&body=Database encrypted with KyberLock v.2.0 %0D%0A%0D%0ADecrypt with my secret Key.%0D%0A%0D%0A" + linkText
 
     }else if (type=="l"){
-        var link = "mailto:"+ "?subject= " + "&body=Text sealed with KyberLock v.1.0. It is not encrypted. Extract it and verify my authorship using my Lock.%0D%0A%0D%0A" + linkText;
+        var link = "mailto:"+ "?subject= " + "&body=Text sealed with KyberLock v.2.0. It is not encrypted. Extract it and verify my authorship using my Lock.%0D%0A%0D%0A" + linkText;
 
     }else if (type=='c'){
-        var link = "mailto:"+ "?subject= My KyberLock Lock" + "&body=This email contains my KyberLock v.1.0 Lock. Use it to encrypt text or files for me to decrypt, or to verify my seal.%0D%0A%0D%0A" + linkText
+        var link = "mailto:"+ "?subject= My KyberLock Lock" + "&body=This email contains my KyberLock v.2.0 Lock. Use it to encrypt text or files for me to decrypt, or to verify my seal.%0D%0A%0D%0A" + linkText
     }
   }
     if(isMobile){ 	 											//new window for PC, same window for mobile

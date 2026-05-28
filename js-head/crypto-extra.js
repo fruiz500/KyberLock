@@ -4,7 +4,7 @@ function signVerify(){
     var array = getType(mainBox.innerHTML.trim()),
         lockBoxHTML = lockBox.innerHTML.replace(/\n/g,'<br>').replace(/<br>$/,"").trim();
     setTimeout(function(){													//the rest after a 20 ms delay
-        if(array[1].length == 4182){                                        //it's a Lock, so sign it
+        if(array[1].length == 3328){                                        //it's a Lock, so sign it
             applySignature(array[1])
         }else{                                                              //if not, verify if the signed marker is present, sign otherwise
             if(array[0] == 'l'){
@@ -27,7 +27,7 @@ function applySignature(textStr){
     if(!refreshKey()) return;
 
     // for decoy message
-    var	padding = decoyEncrypt(160);                                         //200 bytes of padding
+    var	padding = decoyEncrypt(75);                                         //200 bytes of padding
 
     if(textStr.includes('="data:')){
         var encodedText = decodeUTF8(textStr)
@@ -37,7 +37,7 @@ function applySignature(textStr){
 
     //main signing instruction, prefix is l
 
-    var signature = noblePostQuantum.ml_dsa65.sign(myDsaKeys.secretKey, encodedText);   //this comes first, then the plaintext, 3309 bytes
+    var signature = noblePostQuantum.ml_dsa44.sign(encodedText, myDsaKeys.secretKey);   //this comes first, then the plaintext, 3309 bytes
     var sealedText = encodeBase64(concatUi8([[150],padding,signature,encodedText])).replace(/=+$/,'');
 
     mainBox.textContent = '';
@@ -45,7 +45,7 @@ function applySignature(textStr){
         var fileLink = document.createElement('a');
         fileLink.download = "KL10sld.kyb";
         fileLink.href = "data:binary/octet-stream;base64," + sealedText;
-        fileLink.textContent = "KyberLock 1.0 Sealed message (binary file)"
+        fileLink.textContent = "KyberLock 2.0 Sealed message (binary file)"
     }else{
         var fileLink = document.createElement('pre');
         fileLink.textContent = "----------begin message sealed with KyberLock--------==\r\n\r\n" + sealedText.match(/.{1,80}/g).join("\r\n") + "\r\n\r\n==---------end message sealed with KyberLock-----------"
@@ -81,7 +81,7 @@ function verifySignature(textStr,LockStr){
     var	Lockstripped = stripTags(LockStr),
         index = searchStringInArrayDB(LockStr,lockNames);
 
-    if (Lockstripped.length != 4182){									//not a Lock, but maybe it's a name
+    if (Lockstripped.length != 3328){									//not a Lock, but maybe it's a name
         if(index >= 0){
             var name = lockNames[index];
             LockStr = replaceByItem(LockStr)
@@ -94,7 +94,7 @@ function verifySignature(textStr,LockStr){
         LockStr = Lockstripped
     }
 
-    if (LockStr.length != 4182){
+    if (LockStr.length != 3328){
         mainMsg.textContent = 'Enter a valid Lock';
         return
     }
@@ -103,15 +103,15 @@ function verifySignature(textStr,LockStr){
     if(!Lock) return false;
     var	sealedArray = decodeBase64(textStr);
     if(!sealedArray) return false;
-    var	padding = sealedArray.slice(1,201);
+    var	padding = sealedArray.slice(1,101);
 
     if(decoyMode.checked){ if(!decoyDecrypt(padding)) return };			//extract hidden message
 
-    var	sealedItem = sealedArray.slice(201);
-    var signature = sealedItem.slice(0,3309);
-    var plainText = sealedItem.slice(3309);
+    var	sealedItem = sealedArray.slice(101);
+    var signature = sealedItem.slice(0,2420);
+    var plainText = sealedItem.slice(2420);
     var pubDsa = Lock.slice(1184);                     //KEM public key is first, then DSA
-    var isValid = noblePostQuantum.ml_dsa65.verify(pubDsa, plainText, signature);
+    var isValid = noblePostQuantum.ml_dsa44.verify(signature, plainText, pubDsa);
 
     if(isValid){
         if(plainText.join().match(",61,34,100,97,116,97,58,")){
@@ -119,7 +119,7 @@ function verifySignature(textStr,LockStr){
         }else{
             mainBox.innerHTML = decryptSanitizer(LZString.decompressFromUint8Array(plainText))									//decompress and filter
             var mainTxt = mainBox.textContent;
-            if(mainTxt.length == 4182) extractLock(mainTxt)                                             //it's a Lock, so offer to save it
+            if(mainTxt.length == 3328) extractLock(mainTxt)                                             //it's a Lock, so offer to save it
         }
         setTimeout(function(){if(!decoyMode.checked) mainMsg.textContent = 'Seal ownership is VERIFIED for: ' + name},500)				//apply a delay so this appears last
     }else{
@@ -162,7 +162,7 @@ function padEncrypt(text){
         var fileLink = document.createElement('a');
         fileLink.download = "KL10msp.kyb";
         fileLink.href = "data:binary/octet-stream;base64," + outStr;
-        fileLink.textContent = "KyberLock 1.0 Pad encrypted message (binary file)"
+        fileLink.textContent = "KyberLock 2.0 Pad encrypted message (binary file)"
     }else{            
         var fileLink = document.createElement('pre');
         fileLink.textContent = "----------begin Pad mode message encrypted with KyberLock--------==\r\n\r\n" + outStr.match(/.{1,80}/g).join("\r\n") + "\r\n\r\n==---------end Pad mode message encrypted with KyberLock-----------"
@@ -603,4 +603,65 @@ function corrAtDistance(array,freqArray,base,distance){
         }
     }
     return result
+}
+
+// taken from an old version of TweetNaCl, which dropped this code eventually
+
+decodeUTF8 = function(s) {
+  var i, d = unescape(encodeURIComponent(s)), b = new Uint8Array(d.length);
+  for (i = 0; i < d.length; i++) b[i] = d.charCodeAt(i);
+  return b;
+};
+
+encodeUTF8 = function(arr) {
+  var i, s = [];
+  for (i = 0; i < arr.length; i++) s.push(String.fromCharCode(arr[i]));
+  return decodeURIComponent(escape(s.join('')));
+};
+
+encodeBase64 = function(arr) {
+  if (typeof btoa === 'undefined') {
+    return (new Buffer(arr)).toString('base64');
+  } else {
+    var i, s = [], len = arr.length;
+    for (i = 0; i < len; i++) s.push(String.fromCharCode(arr[i]));
+    return btoa(s.join('')).replace(/=+$/, '');
+  }
+};
+
+decodeBase64 = function(s) {
+  if (typeof atob === 'undefined') {
+    return new Uint8Array(Array.prototype.slice.call(new Buffer(s, 'base64'), 0));
+  } else {
+	  try{															//added for PassLok because atob may fail
+    var i, d = atob(s), b = new Uint8Array(d.length);
+	  }catch(error){
+		  return false
+	  }
+    for (i = 0; i < d.length; i++) b[i] = d.charCodeAt(i);
+    return b;
+  }
+};
+
+function base64ToUint8Array(base64) {
+    var paddedBase64 = base64;
+    while (paddedBase64.length % 4 !== 0) {
+        paddedBase64 += '=';
+    }
+    
+    var binaryString = atob(paddedBase64);
+    var bytes = new Uint8Array(binaryString.length);
+    for (var i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+    }
+    return bytes;
+}
+
+function uint8ArrayToBase64(bytes) {
+    var binaryString = '';
+    for (var i = 0; i < bytes.length; i++) {
+        binaryString += String.fromCharCode(bytes[i]);
+    }
+    
+    return btoa(binaryString).replace(/=+$/, '');
 }
